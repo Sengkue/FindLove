@@ -1,0 +1,298 @@
+erDiagram
+    %% ລະບົບຫາຄູ່ຮັກ - LOVE MATCHING SYSTEM
+    
+    USERS {
+        int user_id PK "ລະຫັດຜູ້ໃຊ້"
+        string username "ຊື່ຜູ້ໃຊ້"
+        string email "ອີເມວ"
+        string password_hash "ລະຫັດຜ່ານ"
+        string first_name "ຊື່ຈິງ"
+        string last_name "ນາມສະກຸນ"
+        string gender "ເພດ"
+        int age "ອາຍຸ"
+        date birth_date "ວັນເກີດ"
+        string location "ທີ່ຢູ່"
+        string profile_image "ຮູບໂປຣໄຟລ໌"
+        text bio "ແນະນຳຕົວ"
+        datetime created_at "ວັນທີ່ສ້າງບັນຊີ"
+        datetime last_active "ເຂົ້າໃຊ້ຄັ້ງສຸດທ້າຍ"
+        boolean is_active "ສະຖານະການນຳໃຊ້"
+        boolean is_verified "ຢືນຢັນແລ້ວ"
+    }
+    
+    USER_INTERESTS {
+        int interest_id PK "ລະຫັດຄວາມສົນໃຈ"
+        int user_id FK "ລະຫັດຜູ້ໃຊ້"
+        string interest_name "ຊື່ຄວາມສົນໃຈ"
+        text interest_description "ລາຍລະອຽດ"
+        string interest_category "ປະເພດ"
+        string skill_level "ລະດັບຄວາມຊຳນານ"
+        int priority_level "ລະດັບຄວາມສຳຄັນ"
+        datetime created_at "ວັນທີ່ເພີ່ມ"
+        boolean is_active "ສະຖານະ"
+    }
+    
+    USER_PREFERENCES {
+        int preference_id PK "ລະຫັດຄວາມຕ້ອງການ"
+        int user_id FK "ລະຫັດຜູ້ໃຊ້"
+        string preferred_gender "ເພດທີ່ຕ້ອງການ"
+        int min_age "ອາຍຸຕ່ຳສຸດ"
+        int max_age "ອາຍຸສູງສຸດ"
+        int max_distance_km "ໄລຍະທາງສູງສຸດ"
+        string relationship_type "ປະເພດຄວາມສຳພັນ"
+        datetime updated_at "ວັນທີ່ອັບເດດ"
+    }
+    
+    MATCHES {
+        int match_id PK "ລະຫັດການຈັບຄູ່"
+        int user1_id FK "ຜູ້ໃຊ້ຄົນທີ່ 1"
+        int user2_id FK "ຜູ້ໃຊ້ຄົນທີ່ 2"
+        float match_percentage "ເປີເຊັນຄວາມເຂົ້າກັນໄດ້"
+        text compatibility_details "ລາຍລະອຽດຄວາມເຂົ້າກັນ"
+        datetime match_date "ວັນທີ່ຈັບຄູ່"
+        string status "ສະຖານະ"
+        boolean user1_interested "ຜູ້ໃຊ້ 1 ສົນໃຈ"
+        boolean user2_interested "ຜູ້ໃຊ້ 2 ສົນໃຈ"
+        boolean both_interested "ທັງສອງສົນໃຈ"
+        datetime expires_at "ວັນທີ່ໝົດອາຍຸ"
+    }
+    
+    CONVERSATIONS {
+        int conversation_id PK "ລະຫັດການສົນທະນາ"
+        int match_id FK "ລະຫັດການຈັບຄູ່"
+        datetime started_at "ເລີ່ມສົນທະນາ"
+        int time_limit_days "ຈຳນວນວັນທີ່ກຳໜົດ"
+        int current_phase "ໄລຍະປັດຈຸບັນ (1=3ວັນ, 2=7ວັນ, 3=31ວັນ, 4=1ປີ)"
+        datetime current_deadline "ກຳໜົດເວລາປັດຈຸບັນ"
+        string status "ສະຖານະ"
+        boolean user1_continue "ຜູ້ໃຊ້ 1 ຕ້ອງການສືບຕໍ່"
+        boolean user2_continue "ຜູ້ໃຊ້ 2 ຕ້ອງການສືບຕໍ່"
+        boolean both_decided "ທັງສອງຕັດສິນໃຈແລ້ວ"
+        datetime decision_deadline "ກຳໜົດເວລາຕັດສິນໃຈ"
+        datetime ended_at "ສິ້ນສຸດເມື່ອ"
+        string end_reason "ສາເຫດທີ່ສິ້ນສຸດ"
+        boolean is_active "ກຳລັງໃຊ້ງານ"
+    }
+    
+    MESSAGES {
+        int message_id PK "ລະຫັດຂໍ້ຄວາມ"
+        int conversation_id FK "ລະຫັດການສົນທະນາ"
+        int sender_id FK "ຜູ້ສົ່ງ"
+        text message_text "ເນື້ອຫາຂໍ້ຄວາມ"
+        string message_type "ປະເພດຂໍ້ຄວາມ"
+        datetime sent_at "ສົ່ງເມື່ອ"
+        datetime read_at "ອ່ານເມື່ອ"
+        boolean is_deleted "ລຶບແລ້ວ"
+    }
+    
+    RELATIONSHIP_REQUESTS {
+        int request_id PK "ລະຫັດຄຳຂໍ"
+        int match_id FK "ລະຫັດການຈັບຄູ່"
+        int requester_id FK "ຜູ້ຂໍ"
+        int receiver_id FK "ຜູ້ຮັບຄຳຂໍ"
+        string request_type "ປະເພດຄຳຂໍ"
+        string status "ສະຖານະ"
+        text message "ຂໍ້ຄວາມ"
+        datetime requested_at "ຂໍເມື່ອ"
+        datetime responded_at "ຕອບເມື່ອ"
+        datetime expires_at "ໝົດອາຍຸເມື່ອ"
+    }
+    
+    BLOCKING {
+        int block_id PK "ລະຫັດການບລັອກ"
+        int blocker_id FK "ຜູ້ບລັອກ"
+        int blocked_id FK "ຜູ້ຖືກບລັອກ"
+        text reason "ສາເຫດ"
+        datetime blocked_at "ບລັອກເມື່ອ"
+    }
+    
+    USER_REPORTS {
+        int report_id PK "ລະຫັດການລາຍງານ"
+        int reporter_id FK "ຜູ້ລາຍງານ"
+        int reported_id FK "ຜູ້ຖືກລາຍງານ"
+        string report_type "ປະເພດການລາຍງານ"
+        text description "ລາຍລະອຽດ"
+        string status "ສະຖານະ"
+        datetime reported_at "ລາຍງານເມື່ອ"
+        datetime resolved_at "ແກ້ໄຂເມື່ອ"
+    }
+    
+    POSTS {
+        int post_id PK "ລະຫັດໂພສ"
+        int user_id FK "ເຈົ້າຂອງໂພສ"
+        text post_content "ເນື້ອຫາໂພສ"
+        text post_caption "ຄຳບັນຍາຍ"
+        string post_type "ປະເພດໂພສ (text/image/link/video)"
+        text shared_link "ລິ້ງທີ່ແບ່ງປັນ"
+        string link_title "ຫົວຂໍ້ລິ້ງ"
+        text link_description "ລາຍລະອຽດລິ້ງ"
+        string link_image "ຮູບ Preview ລິ້ງ"
+        string status "ສະຖານະ"
+        boolean is_approved "ອະນຸມັດແລ້ວ"
+        boolean is_featured "ໂພສເດັ່ນ"
+        int view_count "ຈຳນວນຄົນເບິ່ງ"
+        int like_count "ຈຳນວນໄລກ໌"
+        datetime created_at "ສ້າງເມື່ອ"
+        datetime approved_at "ອະນຸມັດເມື່ອ"
+        int approved_by FK "ອະນຸມັດໂດຍ"
+        text admin_notes "ບັນທຶກຂອງແອັດມິນ"
+    }
+    
+    POST_IMAGES {
+        int image_id PK "ລະຫັດຮູບ"
+        int post_id FK "ລະຫັດໂພສ"
+        string image_url "ລິ້ງຮູບ"
+        string image_caption "ຄຳບັນຍາຍຮູບ"
+        int image_order "ລຳດັບຮູບ"
+        boolean is_cover "ຮູບໜ້າປົກ"
+        datetime uploaded_at "ອັບໂຫລດເມື່ອ"
+    }
+    
+    POST_LIKES {
+        int like_id PK "ລະຫັດໄລກ໌"
+        int post_id FK "ລະຫັດໂພສ"
+        int user_id FK "ຜູ້ໄລກ໌"
+        datetime liked_at "ໄລກ໌ເມື່ອ"
+    }
+    
+    POST_COMMENTS {
+        int comment_id PK "ລະຫັດຄອມເມັນ"
+        int post_id FK "ລະຫັດໂພສ"
+        int user_id FK "ຜູ້ຄອມເມັນ"
+        text comment_text "ເນື້ອຫາຄອມເມັນ"
+        boolean is_approved "ອະນຸມັດແລ້ວ"
+        datetime created_at "ສ້າງເມື່ອ"
+        datetime approved_at "ອະນຸມັດເມື່ອ"
+        int approved_by FK "ອະນຸມັດໂດຍ"
+    }
+    
+    ADMINS {
+        int admin_id PK "ລະຫັດແອັດມິນ"
+        string admin_username "ຊື່ແອັດມິນ"
+        string admin_email "ອີເມວແອັດມິນ"
+        string password_hash "ລະຫັດຜ່ານ"
+        string admin_role "ບົດບາດ"
+        boolean is_active "ສະຖານະ"
+        datetime created_at "ສ້າງເມື່ອ"
+        datetime last_login "ເຂົ້າໃຊ້ຄັ້ງສຸດທ້າຍ"
+    }
+    
+    ADMIN_ACTIONS {
+        int action_id PK "ລະຫັດການກະທຳ"
+        int admin_id FK "ລະຫັດແອັດມິນ"
+        string action_type "ປະເພດການກະທຳ"
+        string target_type "ປະເພດເປົ້າໝາຍ"
+        int target_id "ລະຫັດເປົ້າໝາຍ"
+        text action_description "ລາຍລະອຽດ"
+        text reason "ເຫດຜົນ"
+        datetime performed_at "ກະທຳເມື່ອ"
+    }
+    
+    USER_PROFILE_PHOTOS {
+        int photo_id PK "ລະຫັດຮູບໂປຣໄຟລ໌"
+        int user_id FK "ເຈົ້າຂອງຮູບ"
+        string image_url "ລິ້ງຮູບ"
+        string image_caption "ຄຳບັນຍາຍຮູບ"
+        int photo_order "ລຳດັບຮູບ"
+        boolean is_main_profile "ຮູບໂປຣໄຟລ໌ຫຼັກ"
+        boolean is_approved "ອະນຸມັດແລ້ວ"
+        string status "ສະຖານະ"
+        datetime uploaded_at "ອັບໂຫລດເມື່ອ"
+        datetime approved_at "ອະນຸມັດເມື່ອ"
+        int approved_by FK "ອະນຸມັດໂດຍ"
+    }
+    
+    USER_ABOUT {
+        int about_id PK "ລະຫັດຂໍ້ມູນ"
+        int user_id FK "ລະຫັດຜູ້ໃຊ້"
+        text about_me "ກ່ຽວກັບຂ້ອຍ"
+        string occupation "ອາຊີບ"
+        string education "ການສຶກສາ"
+        string company "ບໍລິສັດ"
+        string hometown "ບ້ານເກີດ"
+        string current_city "ເມືອງປັດຈຸບັນ"
+        string relationship_goal "ເປົ້າໝາຍຄວາມສຳພັນ"
+        text hobbies "ງານອະດິເລກ"
+        text favorite_music "ດົນຕີທີ່ມັກ"
+        text favorite_movies "ໜັງທີ່ມັກ"
+        text favorite_books "ປຶ້ມທີ່ມັກ"
+        text life_philosophy "ປັດຊະຍາຊີວິດ"
+        string languages "ພາສາທີ່ເວົ້າໄດ້"
+        text travel_places "ສະຖານທີ່ທ່ອງທ່ຽວ"
+        boolean show_in_profile "ສະແດງໃນໂປຣໄຟລ໌"
+        datetime created_at "ສ້າງເມື່ອ"
+        datetime updated_at "ອັບເດດເມື່ອ"
+    }
+    
+    NOTIFICATIONS {
+        int notification_id PK "ລະຫັດການແຈ້ງເຕືອນ"
+        int user_id FK "ຜູ້ຮັບການແຈ້ງເຕືອນ"
+        string notification_type "ປະເພດການແຈ້ງເຕືອນ"
+        string title "ຫົວຂໍ້"
+        text message "ຂໍ້ຄວາມ"
+        int related_id "ລະຫັດທີ່ກ່ຽວຂ້ອງ"
+        string related_type "ປະເພດທີ່ກ່ຽວຂ້ອງ"
+        boolean is_read "ອ່ານແລ້ວ"
+        boolean is_urgent "ດ່ວນ"
+        datetime scheduled_at "ກຳນົດສົ່ງເມື່ອ"
+        datetime sent_at "ສົ່ງເມື່ອ"
+        datetime read_at "ອ່ານເມື່ອ"
+        datetime expires_at "ໝົດອາຍຸເມື່ອ"
+    }
+    
+    CONVERSATION_TIMERS {
+        int timer_id PK "ລະຫັດຕົວນັບເວລາ"
+        int conversation_id FK "ລະຫັດການສົນທະນາ"
+        int phase_number "ເລກໄລຍະ"
+        string phase_name "ຊື່ໄລຍະ"
+        int duration_days "ໄລຍະເວລາ (ວັນ)"
+        datetime starts_at "ເລີ່ມເມື່ອ"
+        datetime ends_at "ສິ້ນສຸດເມື່ອ"
+        boolean is_active "ກຳລັງນັບ"
+        boolean is_completed "ສຳເລັດແລ້ວ"
+        datetime completed_at "ສຳເລັດເມື່ອ"
+        string result "ຜົນລັບ"
+    }
+    
+    USER_DECISIONS {
+        int decision_id PK "ລະຫັດການຕັດສິນໃຈ"
+        int conversation_id FK "ລະຫັດການສົນທະນາ"
+        int user_id FK "ຜູ້ຕັດສິນໃຈ"
+        int phase_number "ໄລຍະທີ່ຕັດສິນໃຈ"
+        string decision "ການຕັດສິນໃຈ (continue/stop)"
+        text reason "ເຫດຜົນ"
+        datetime decided_at "ຕັດສິນໃຈເມື່ອ"
+        boolean is_final "ການຕັດສິນໃຈສຸດທ້າຍ"
+    }
+    
+    %% ຄວາມສຳພັນລະຫວ່າງຕາຕະລາງ
+    USERS ||--o{ USER_INTERESTS : "ມີຄວາມສົນໃຈ"
+    USERS ||--|| USER_PREFERENCES : "ກຳໜົດຄວາມຕ້ອງການ"
+    USERS ||--o{ MATCHES : "ຜູ້ໃຊ້ທີ່ 1"
+    USERS ||--o{ MATCHES : "ຜູ້ໃຊ້ທີ່ 2"
+    MATCHES ||--|| CONVERSATIONS : "ສ້າງການສົນທະນາ"
+    CONVERSATIONS ||--o{ MESSAGES : "ມີຂໍ້ຄວາມ"
+    USERS ||--o{ MESSAGES : "ສົ່ງຂໍ້ຄວາມ"
+    MATCHES ||--o{ RELATIONSHIP_REQUESTS : "ເກີດຄຳຂໍ"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "ສົ່ງຄຳຂໍ"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "ຮັບຄຳຂໍ"
+    USERS ||--o{ BLOCKING : "ບລັອກ"
+    USERS ||--o{ BLOCKING : "ຖືກບລັອກ"
+    USERS ||--o{ USER_REPORTS : "ລາຍງານ"
+    USERS ||--o{ USER_REPORTS : "ຖືກລາຍງານ"
+    USERS ||--o{ POSTS : "ສ້າງໂພສ"
+    POSTS ||--o{ POST_IMAGES : "ມີຮູບ"
+    USERS ||--o{ POST_LIKES : "ໃຫ້ໄລກ໌"
+    POSTS ||--o{ POST_LIKES : "ໄດ້ຮັບໄລກ໌"
+    USERS ||--o{ POST_COMMENTS : "ຄອມເມັນ"
+    POSTS ||--o{ POST_COMMENTS : "ໄດ້ຮັບຄອມເມັນ"
+    ADMINS ||--o{ POSTS : "ອະນຸມັດໂພສ"
+    ADMINS ||--o{ POST_COMMENTS : "ອະນຸມັດຄອມເມັນ"
+    ADMINS ||--o{ ADMIN_ACTIONS : "ກະທຳ"
+    USERS ||--o{ USER_PROFILE_PHOTOS : "ມີຮູບໂປຣໄຟລ໌"
+    ADMINS ||--o{ USER_PROFILE_PHOTOS : "ອະນຸມັດຮູບ"
+    USERS ||--|| USER_ABOUT : "ມີຂໍ້ມູນ"
+    USERS ||--o{ NOTIFICATIONS : "ຮັບການແຈ້ງເຕືອນ"
+    CONVERSATIONS ||--o{ CONVERSATION_TIMERS : "ມີຕົວນັບເວລາ"
+    USERS ||--o{ USER_DECISIONS : "ຕັດສິນໃຈ"
+    CONVERSATIONS ||--o{ USER_DECISIONS : "ມີການຕັດສິນໃຈ"
