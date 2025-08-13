@@ -1,0 +1,1622 @@
+# 🔔 Notification System for Love App - PostgreSQL Version
+
+## ຄຳອະທິບາຍ (Description)
+ລະບົບ Notification ສຳລັບ Dating App ທີ່ມີ real-time notifications, countdown timers, ແລະ automatic scheduling ໃຊ້ PostgreSQL database.
+
+## 🚀 ການຕິດຕັ້ງ (Installation)
+
+### 1. ຕິດຕັ້ງ PostgreSQL
+ໃຫ້ແນ່ໃຈວ່າມີ PostgreSQL ຕິດຕັ້ງແລ້ວ ແລະ running ຢູ່ port 5432
+
+### 2. ສ້າງ database
+\`\`\`sql
+-- ເຂົ້າ psql terminal
+psql -U postgres
+
+-- ສ້າງ database
+CREATE DATABASE findlovedb;
+
+-- ກວດເບິ່ງວ່າສ້າງແລ້ວບໍ
+\l
+\`\`\`
+
+### 3. Clone ແລະ setup project
+\`\`\`bash
+mkdir notification-system
+cd notification-system
+
+# Copy ໄຟລ໌ทັງໝົດຈາກ artifact
+# ແລ້ວ install dependencies
+npm install
+\`\`\`
+
+### 4. ກວດເບິ່ງ .env file
+\`\`\`env
+NODE_ENV=development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=findlovedb
+DB_USER=postgres
+DB_PASS=123
+\`\`\`
+
+### 5. ກວດເບິ່ງການເຊື່ອມຕໍ່ database
+\`\`\`bash
+# ທົດສອບເຊື່ອມຕໍ່ໂດຍກົງ
+psql -h localhost -p 5432 -U postgres -d findlovedb
+\`\`\`
+
+### 6. Start server (ຈະສ້າງ tables ອັດຕະໂນມັດ)
+\`\`\`bash
+npm run dev
+\`\`\`
+
+### 7. ເປີດໃນ browser
+\`\`\`
+http://localhost:3000
+\`\`\`
+
+## 🔧 Connection แบບ Direct
+ໃນ \`models/index.js\` ໃຊ້ connection ແບບທີ່ເຈົ້າຕ້ອງການ:
+\`\`\`javascript
+const sequelize = new Sequelize('findlovedb', 'postgres', '123', {
+  host: 'localhost',
+  dialect: 'postgres',
+  port: 5432
+});
+\`\`\`
+
+## 📊 ຄວາມແຕກຕ່າງຈາກ MySQL
+
+### ✅ **PostgreSQL ຂໍ້ດີ:**
+- **JSON Support** - ເກັບຂໍ້ມູນ JSON ໄດ້ດີກວ່າ
+- **Performance** - ໄວກວ່າສຳລັບ complex queries
+- **ENUM Types** - ຮອງຮັບ ENUM ໄດ້ດີ
+- **Advanced Features** - Array, UUID, Full-text search
+
+### 🔄 **ການປັບແຕ່ງສຳລັບ PostgreSQL:**
+- ໃຊ້ \`pg\` ແລະ \`pg-hstore\` packages
+- \`underscored: true\` ສຳລັບ snake_case columns
+- Connection pooling ສຳລັບ performance
+- Index optimization
+
+## 🗃️ Database Tables ທີ່ສ້າງ:
+
+### 1. **users**
+\`\`\`sql
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  socket_id VARCHAR(100),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+\`\`\`
+
+### 2. **notifications**
+\`\`\`sql
+CREATE TYPE notification_type_enum AS ENUM (
+  'timer_warning', 'timer_expired', 'decision_required', 
+  'partner_decision', 'match_found', 'message_received'
+);
+
+CREATE TYPE related_type_enum AS ENUM (
+  'timer', 'conversation', 'match', 'message'
+);
+
+CREATE TABLE notifications (
+  notification_id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(user_id),
+  notification_type notification_type_enum NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  message TEXT NOT NULL,
+  related_id INTEGER,
+  related_type related_type_enum,
+  is_read BOOLEAN DEFAULT false,
+  is_urgent BOOLEAN DEFAULT false,
+  scheduled_at TIMESTAMP,
+  sent_at TIMESTAMP,
+  read_at TIMESTAMP,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+\`\`\`
+
+### 3. **conversation_timers**
+\`\`\`sql
+CREATE TYPE timer_result_enum AS ENUM (
+  'both_continue', 'user1_stop', 'user2_stop', 'expired'
+);
+
+CREATE TABLE conversation_timers (
+  timer_id SERIAL PRIMARY KEY,
+  conversation_id INTEGER NOT NULL,
+  user1_id INTEGER NOT NULL,
+  user2_id INTEGER NOT NULL,
+  phase_number INTEGER DEFAULT 1,
+  phase_name VARCHAR(50) NOT NULL,
+  duration_days INTEGER NOT NULL,
+  starts_at TIMESTAMP NOT NULL,
+  ends_at TIMESTAMP NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  is_completed BOOLEAN DEFAULT false,
+  completed_at TIMESTAMP,
+  result timer_result_enum,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+\`\`\`
+
+## 🔍 PostgreSQL Specific Features ທີ່ໃຊ້:
+
+### **ENUM Types:**
+- ປະຫຍັດ storage space
+- Data validation ໃນ database level
+- Type safety
+
+### **SERIAL:**
+- Auto-increment primary keys
+- ດີກວ່າ AUTO_INCREMENT ຂອງ MySQL
+
+### **Timestamps:**
+- PostgreSQL ມີ timezone support ດີກວ່າ
+- TIMESTAMP ແທນ DATETIME
+
+## 🚨 Troubleshooting
+
+### ຖ້າເຊື່ອມຕໍ່ database ບໍ່ໄດ້:
+\`\`\`bash
+# ກວດເບິ່ງວ່າ PostgreSQL running ບໍ
+sudo systemctl status postgresql
+
+# ຫຼື ໃນ macOS
+brew services list | grep postgresql
+
+# ເລີ່ມ PostgreSQL
+sudo systemctl start postgresql
+# ຫຼື
+brew services start postgresql
+\`\`\`
+
+### ຖ້າ password ບໍ່ຖືກ:
+\`\`\`sql
+-- ໃນ psql ເປັນ superuser
+ALTER USER postgres PASSWORD '123';
+\`\`\`
+
+### ຖ້າ permission denied:
+\`\`\`bash
+# ແກ້ໄຂໃນ pg_hba.conf
+sudo nano /etc/postgresql/14/main/pg_hba.conf
+
+# ເປັນ md5 authentication:
+local   all             postgres                                md5
+\`\`\`
+
+ລະບົບນີ້ພ້ອມໃຊ້ງານກັບ PostgreSQL ແລ້ວ! 🐘✨// package.json
+{
+  "name": "notification-system",
+  "version": "1.0.0",
+  "description": "Test notification system for love app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.35.2",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "socket.io": "^4.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "moment": "^2.29.4",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "sequelize-cli": "^6.6.2"
+  }
+}
+
+// ==========================================
+// .env
+NODE_ENV=development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=findlovedb
+DB_USER=postgres
+DB_PASS=123
+
+// ==========================================
+// config/database.js
+require('dotenv').config();
+
+module.exports = {
+  development: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    logging: console.log,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  },
+  production: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    logging: false,
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  }
+};
+
+// ==========================================
+// models/index.js
+const { Sequelize } = require('sequelize');
+
+// Direct connection ແບບທີ່ເຈົ້າໃຊ້
+const sequelize = new Sequelize('findlovedb', 'postgres', '123', {
+  host: 'localhost',
+  dialect: 'postgres',
+  port: 5432,
+  logging: console.log,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
+  define: {
+    // ໃຊ້ snake_case ສຳລັບ column names
+    underscored: true,
+    // ບໍ່ເພີ່ມ s ໃນຊື່ table
+    freezeTableName: true
+  }
+});
+
+// Import models
+const User = require('./User')(sequelize, Sequelize.DataTypes);
+const Notification = require('./Notification')(sequelize, Sequelize.DataTypes);
+const ConversationTimer = require('./ConversationTimer')(sequelize, Sequelize.DataTypes);
+
+// Define associations
+User.hasMany(Notification, { foreignKey: 'user_id', as: 'notifications' });
+Notification.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+
+ConversationTimer.hasMany(Notification, { 
+  foreignKey: 'related_id', 
+  constraints: false,
+  scope: { related_type: 'timer' },
+  as: 'notifications'
+});
+
+const db = {
+  sequelize,
+  Sequelize,
+  User,
+  Notification,
+  ConversationTimer
+};
+
+module.exports = db;
+
+// ==========================================
+// models/User.js
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true
+    },
+    first_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    last_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    socket_id: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    }
+  }, {
+    tableName: 'users',
+    timestamps: true,
+    // PostgreSQL ໃຊ້ snake_case
+    underscored: true
+  });
+
+  return User;
+};
+
+// ==========================================
+// models/Notification.js
+module.exports = (sequelize, DataTypes) => {
+  const Notification = sequelize.define('Notification', {
+    notification_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'user_id'
+      }
+    },
+    notification_type: {
+      type: DataTypes.ENUM(
+        'timer_warning', 
+        'timer_expired', 
+        'decision_required', 
+        'partner_decision',
+        'match_found',
+        'message_received'
+      ),
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.STRING(200),
+      allowNull: false
+    },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    related_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    related_type: {
+      type: DataTypes.ENUM('timer', 'conversation', 'match', 'message'),
+      allowNull: true
+    },
+    is_read: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    is_urgent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    scheduled_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    sent_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    read_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    expires_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    }
+  }, {
+    tableName: 'notifications',
+    timestamps: true,
+    // PostgreSQL ໃຊ້ snake_case
+    underscored: true
+  });
+
+  return Notification;
+};
+
+// ==========================================
+// models/ConversationTimer.js
+module.exports = (sequelize, DataTypes) => {
+  const ConversationTimer = sequelize.define('ConversationTimer', {
+    timer_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    conversation_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    user1_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    user2_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    phase_number: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1
+    },
+    phase_name: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
+    duration_days: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    starts_at: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    ends_at: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    is_completed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    completed_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    result: {
+      type: DataTypes.ENUM('both_continue', 'user1_stop', 'user2_stop', 'expired'),
+      allowNull: true
+    }
+  }, {
+    tableName: 'conversation_timers',
+    timestamps: true,
+    // PostgreSQL ໃຊ້ snake_case
+    underscored: true
+  });
+
+  return ConversationTimer;
+};
+
+// ==========================================
+// services/notificationService.js
+const { Notification, User } = require('../models');
+const moment = require('moment');
+
+class NotificationService {
+  
+  // ສ້າງ notification ໃໝ່
+  static async createNotification(data) {
+    try {
+      const notification = await Notification.create({
+        user_id: data.user_id,
+        notification_type: data.type,
+        title: data.title,
+        message: data.message,
+        related_id: data.related_id || null,
+        related_type: data.related_type || null,
+        is_urgent: data.is_urgent || false,
+        scheduled_at: data.scheduled_at || new Date(),
+        expires_at: data.expires_at || null
+      });
+      
+      console.log(`✅ Notification created: ${notification.notification_id}`);
+      return notification;
+    } catch (error) {
+      console.error('❌ Error creating notification:', error);
+      throw error;
+    }
+  }
+
+  // ສ້າງ timer warning notifications
+  static async createTimerWarning(timerId, hoursLeft) {
+    try {
+      const timer = await ConversationTimer.findByPk(timerId);
+      if (!timer) return;
+
+      const notifications = await Promise.all([
+        this.createNotification({
+          user_id: timer.user1_id,
+          type: 'timer_warning',
+          title: '⏰ ເວລາໃກ້ໝົດແລ້ວ!',
+          message: `ເຫຼືອ ${hoursLeft} ຊົ່ວໂມງໃນການຕັດສິນໃຈ! ເຈົ້າຕ້ອງການສືບຕໍ່ບໍ?`,
+          related_id: timerId,
+          related_type: 'timer',
+          is_urgent: hoursLeft <= 3
+        }),
+        this.createNotification({
+          user_id: timer.user2_id,
+          type: 'timer_warning',
+          title: '⏰ ເວລາໃກ້ໝົດແລ້ວ!',
+          message: `ເຫຼືອ ${hoursLeft} ຊົ່ວໂມງໃນການຕັດສິນໃຈ! ເຈົ້າຕ້ອງການສືບຕໍ່ບໍ?`,
+          related_id: timerId,
+          related_type: 'timer',
+          is_urgent: hoursLeft <= 3
+        })
+      ]);
+
+      return notifications;
+    } catch (error) {
+      console.error('❌ Error creating timer warning:', error);
+    }
+  }
+
+  // ສ້າງ decision required notification
+  static async createDecisionRequired(timerId) {
+    try {
+      const timer = await ConversationTimer.findByPk(timerId);
+      if (!timer) return;
+
+      const nextPhase = timer.phase_number + 1;
+      const nextDuration = this.getNextPhaseDuration(nextPhase);
+
+      const notifications = await Promise.all([
+        this.createNotification({
+          user_id: timer.user1_id,
+          type: 'decision_required',
+          title: '💕 ເວລາຕັດສິນໃຈ!',
+          message: `ໄລຍະ ${timer.phase_name} ສິ້ນສຸດແລ້ວ! ຕ້ອງການສືບຕໍ່ໄປ ${nextDuration} ບໍ?`,
+          related_id: timerId,
+          related_type: 'timer',
+          is_urgent: true,
+          expires_at: moment().add(24, 'hours').toDate()
+        }),
+        this.createNotification({
+          user_id: timer.user2_id,
+          type: 'decision_required',
+          title: '💕 ເວລາຕັດສິນໃຈ!',
+          message: `ໄລຍະ ${timer.phase_name} ສິ້ນສຸດແລ້ວ! ຕ້ອງການສືບຕໍ່ໄປ ${nextDuration} ບໍ?`,
+          related_id: timerId,
+          related_type: 'timer',
+          is_urgent: true,
+          expires_at: moment().add(24, 'hours').toDate()
+        })
+      ]);
+
+      return notifications;
+    } catch (error) {
+      console.error('❌ Error creating decision required:', error);
+    }
+  }
+
+  // ດຶງ notifications ຂອງ user
+  static async getUserNotifications(userId, limit = 20) {
+    try {
+      const notifications = await Notification.findAll({
+        where: { user_id: userId },
+        order: [['created_at', 'DESC']],
+        limit,
+        include: [{
+          model: User,
+          as: 'user',
+          attributes: ['username', 'first_name', 'last_name']
+        }]
+      });
+
+      return notifications;
+    } catch (error) {
+      console.error('❌ Error getting notifications:', error);
+      return [];
+    }
+  }
+
+  // ຈຳນວນ notifications ທີ່ຍັງບໍ່ໄດ້ອ່ານ
+  static async getUnreadCount(userId) {
+    try {
+      const count = await Notification.count({
+        where: { 
+          user_id: userId, 
+          is_read: false 
+        }
+      });
+      return count;
+    } catch (error) {
+      console.error('❌ Error getting unread count:', error);
+      return 0;
+    }
+  }
+
+  // ມາກ notification ວ່າອ່ານແລ້ວ
+  static async markAsRead(notificationId, userId) {
+    try {
+      const result = await Notification.update(
+        { 
+          is_read: true, 
+          read_at: new Date() 
+        },
+        { 
+          where: { 
+            notification_id: notificationId, 
+            user_id: userId 
+          } 
+        }
+      );
+      return result[0] > 0;
+    } catch (error) {
+      console.error('❌ Error marking as read:', error);
+      return false;
+    }
+  }
+
+  // Helper: ດຶງໄລຍະເວລາຂອງ phase ຕໍ່ໄປ
+  static getNextPhaseDuration(phaseNumber) {
+    const phases = {
+      2: '7 ວັນ',
+      3: '31 ວັນ', 
+      4: '1 ປີ'
+    };
+    return phases[phaseNumber] || 'ໄລຍະສຸດທ້າຍ';
+  }
+}
+
+module.exports = NotificationService;
+
+// ==========================================
+// services/timerService.js
+const { ConversationTimer } = require('../models');
+const NotificationService = require('./notificationService');
+const moment = require('moment');
+
+class TimerService {
+  
+  // ສ້າງ timer ໃໝ່
+  static async createTimer(conversationId, user1Id, user2Id, phaseNumber = 1) {
+    try {
+      const phases = {
+        1: { name: '3 ວັນ', days: 3 },
+        2: { name: '7 ວັນ', days: 7 },
+        3: { name: '31 ວັນ', days: 31 },
+        4: { name: '1 ປີ', days: 365 }
+      };
+
+      const phase = phases[phaseNumber];
+      const startTime = new Date();
+      const endTime = moment(startTime).add(phase.days, 'days').toDate();
+
+      const timer = await ConversationTimer.create({
+        conversation_id: conversationId,
+        user1_id: user1Id,
+        user2_id: user2Id,
+        phase_number: phaseNumber,
+        phase_name: phase.name,
+        duration_days: phase.days,
+        starts_at: startTime,
+        ends_at: endTime,
+        is_active: true
+      });
+
+      console.log(`⏰ Timer created: Phase ${phaseNumber} (${phase.name})`);
+      
+      // ສ້າງ notification ໃຫ້ທັງສອງ
+      await NotificationService.createNotification({
+        user_id: user1Id,
+        type: 'timer_warning',
+        title: '🎉 ເລີ່ມສົນທະນາແລ້ວ!',
+        message: `ເຈົ້າມີເວລາ ${phase.name} ໃນການຮູ້ຈັກກັນ!`,
+        related_id: timer.timer_id,
+        related_type: 'timer'
+      });
+
+      await NotificationService.createNotification({
+        user_id: user2Id,
+        type: 'timer_warning',
+        title: '🎉 ເລີ່ມສົນທະນາແລ້ວ!',
+        message: `ເຈົ້າມີເວລາ ${phase.name} ໃນການຮູ້ຈັກກັນ!`,
+        related_id: timer.timer_id,
+        related_type: 'timer'
+      });
+
+      return timer;
+    } catch (error) {
+      console.error('❌ Error creating timer:', error);
+      throw error;
+    }
+  }
+
+  // ກວດເບິ່ງ timers ທີ່ໃກ້ໝົດເວລາ
+  static async checkExpiringTimers() {
+    try {
+      const now = new Date();
+      const twelveHoursLater = moment(now).add(12, 'hours').toDate();
+      const threeHoursLater = moment(now).add(3, 'hours').toDate();
+
+      // ຫາ timers ທີ່ໃກ້ໝົດເວລາ
+      const expiringTimers = await ConversationTimer.findAll({
+        where: {
+          is_active: true,
+          is_completed: false,
+          ends_at: {
+            [require('sequelize').Op.between]: [now, twelveHoursLater]
+          }
+        }
+      });
+
+      for (const timer of expiringTimers) {
+        const timeLeft = moment(timer.ends_at).diff(now, 'hours');
+        
+        if (timeLeft <= 12 && timeLeft > 3) {
+          await NotificationService.createTimerWarning(timer.timer_id, timeLeft);
+        } else if (timeLeft <= 3) {
+          await NotificationService.createTimerWarning(timer.timer_id, timeLeft);
+        }
+      }
+
+      // ຫາ timers ທີ່ໝົດເວລາແລ້ວ
+      const expiredTimers = await ConversationTimer.findAll({
+        where: {
+          is_active: true,
+          is_completed: false,
+          ends_at: {
+            [require('sequelize').Op.lt]: now
+          }
+        }
+      });
+
+      for (const timer of expiredTimers) {
+        await this.expireTimer(timer.timer_id);
+      }
+
+      console.log(`🔍 Checked ${expiringTimers.length} expiring, ${expiredTimers.length} expired timers`);
+    } catch (error) {
+      console.error('❌ Error checking timers:', error);
+    }
+  }
+
+  // ທຳໃຫ້ timer ໝົດອາຍຸ
+  static async expireTimer(timerId) {
+    try {
+      const timer = await ConversationTimer.findByPk(timerId);
+      if (!timer) return;
+
+      await timer.update({
+        is_active: false,
+        is_completed: true,
+        completed_at: new Date(),
+        result: 'expired'
+      });
+
+      // ສ້າງ decision required notifications
+      await NotificationService.createDecisionRequired(timerId);
+
+      console.log(`⏰ Timer expired: ${timerId}`);
+    } catch (error) {
+      console.error('❌ Error expiring timer:', error);
+    }
+  }
+
+  // ດຶງ active timers ທັງໝົດ
+  static async getActiveTimers() {
+    try {
+      const timers = await ConversationTimer.findAll({
+        where: {
+          is_active: true,
+          is_completed: false
+        },
+        order: [['ends_at', 'ASC']]
+      });
+      return timers;
+    } catch (error) {
+      console.error('❌ Error getting active timers:', error);
+      return [];
+    }
+  }
+}
+
+module.exports = TimerService;
+
+// ==========================================
+// server.js
+require('dotenv').config();
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
+const cron = require('node-cron');
+
+const db = require('./models');
+const NotificationService = require('./services/notificationService');
+const TimerService = require('./services/timerService');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
+// Store connected users
+const connectedUsers = new Map();
+
+// Socket.io connection
+io.on('connection', (socket) => {
+  console.log('🔌 User connected:', socket.id);
+
+  // User joins with their ID
+  socket.on('join', async (userId) => {
+    connectedUsers.set(userId, socket.id);
+    socket.userId = userId;
+    
+    // Update user's socket_id in database
+    await db.User.update(
+      { socket_id: socket.id },
+      { where: { user_id: userId } }
+    );
+    
+    console.log(`👤 User ${userId} joined with socket ${socket.id}`);
+    
+    // Send unread notifications count
+    const unreadCount = await NotificationService.getUnreadCount(userId);
+    socket.emit('unreadCount', unreadCount);
+  });
+
+  // Mark notification as read
+  socket.on('markAsRead', async (data) => {
+    const success = await NotificationService.markAsRead(data.notificationId, socket.userId);
+    if (success) {
+      const unreadCount = await NotificationService.getUnreadCount(socket.userId);
+      socket.emit('unreadCount', unreadCount);
+      socket.emit('notificationRead', data.notificationId);
+    }
+  });
+
+  // Get user notifications
+  socket.on('getNotifications', async () => {
+    if (socket.userId) {
+      const notifications = await NotificationService.getUserNotifications(socket.userId);
+      socket.emit('notifications', notifications);
+    }
+  });
+
+  // Disconnect
+  socket.on('disconnect', () => {
+    if (socket.userId) {
+      connectedUsers.delete(socket.userId);
+      console.log(`👤 User ${socket.userId} disconnected`);
+    }
+  });
+});
+
+// API Routes
+// ດຶງ notifications
+app.get('/api/notifications/:userId', async (req, res) => {
+  try {
+    const notifications = await NotificationService.getUserNotifications(req.params.userId);
+    res.json(notifications);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ສ້າງ notification ທົດສອບ
+app.post('/api/test-notification', async (req, res) => {
+  try {
+    const { userId, type, title, message } = req.body;
+    
+    const notification = await NotificationService.createNotification({
+      user_id: userId,
+      type: type || 'timer_warning',
+      title: title || 'ການທົດສອບ',
+      message: message || 'ນີ້ແມ່ນ notification ທົດສອບ'
+    });
+
+    // ສົ່ງ notification ຜ່ານ socket ຖ້າ user online
+    const socketId = connectedUsers.get(parseInt(userId));
+    if (socketId) {
+      io.to(socketId).emit('newNotification', notification);
+      const unreadCount = await NotificationService.getUnreadCount(userId);
+      io.to(socketId).emit('unreadCount', unreadCount);
+    }
+
+    res.json({ success: true, notification });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ສ້າງ timer ທົດສອບ
+app.post('/api/test-timer', async (req, res) => {
+  try {
+    const { conversationId, user1Id, user2Id, phaseNumber } = req.body;
+    
+    const timer = await TimerService.createTimer(
+      conversationId || 1,
+      user1Id || 1,
+      user2Id || 2,
+      phaseNumber || 1
+    );
+
+    res.json({ success: true, timer });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ດຶງ active timers
+app.get('/api/timers', async (req, res) => {
+  try {
+    const timers = await TimerService.getActiveTimers();
+    res.json(timers);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Serve test HTML page
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Notification Test</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .notification { 
+                border: 1px solid #ddd; 
+                padding: 10px; 
+                margin: 5px 0; 
+                border-radius: 5px;
+                background: #f9f9f9;
+            }
+            .urgent { border-color: #ff4444; background: #ffe6e6; }
+            .unread { font-weight: bold; }
+            button { padding: 10px; margin: 5px; }
+        </style>
+    </head>
+    <body>
+        <h1>🔔 Notification System Test</h1>
+        
+        <div>
+            <label>User ID: <input type="number" id="userId" value="1"></label>
+            <button onclick="connectUser()">Connect</button>
+            <button onclick="getNotifications()">Get Notifications</button>
+        </div>
+        
+        <div>
+            <h3>Test Actions:</h3>
+            <button onclick="testNotification()">Send Test Notification</button>
+            <button onclick="testTimer()">Create Test Timer</button>
+            <button onclick="getTimers()">Get Active Timers</button>
+        </div>
+        
+        <div>
+            <h3>Unread Count: <span id="unreadCount">0</span></h3>
+        </div>
+        
+        <div id="notifications"></div>
+        
+        <script>
+            const socket = io();
+            let currentUserId = null;
+            
+            function connectUser() {
+                currentUserId = document.getElementById('userId').value;
+                socket.emit('join', parseInt(currentUserId));
+                console.log('Connected as user:', currentUserId);
+            }
+            
+            function getNotifications() {
+                socket.emit('getNotifications');
+            }
+            
+            function testNotification() {
+                fetch('/api/test-notification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUserId,
+                        type: 'timer_warning',
+                        title: '⏰ ການທົດສອບ Notification',
+                        message: 'ນີ້ແມ່ນ notification ທົດສອບຈາກ server!'
+                    })
+                });
+            }
+            
+            function testTimer() {
+                fetch('/api/test-timer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        conversationId: 1,
+                        user1Id: 1,
+                        user2Id: 2,
+                        phaseNumber: 1
+                    })
+                });
+            }
+            
+            function getTimers() {
+                fetch('/api/timers')
+                    .then(r => r.json())
+                    .then(data => {
+                        console.log('Active timers:', data);
+                        alert('Check console for timers');
+                    });
+            }
+            
+            function markAsRead(notificationId) {
+                socket.emit('markAsRead', { notificationId });
+            }
+            
+            // Socket events
+            socket.on('unreadCount', (count) => {
+                document.getElementById('unreadCount').innerText = count;
+            });
+            
+            socket.on('notifications', (notifications) => {
+                const container = document.getElementById('notifications');
+                container.innerHTML = '<h3>Notifications:</h3>';
+                
+                notifications.forEach(notif => {
+                    const div = document.createElement('div');
+                    div.className = 'notification' + 
+                        (notif.is_urgent ? ' urgent' : '') + 
+                        (!notif.is_read ? ' unread' : '');
+                    
+                    div.innerHTML = \`
+                        <h4>\${notif.title}</h4>
+                        <p>\${notif.message}</p>
+                        <small>Type: \${notif.notification_type} | Created: \${new Date(notif.created_at).toLocaleString()}</small>
+                        \${!notif.is_read ? \`<button onclick="markAsRead(\${notif.notification_id})">Mark as Read</button>\` : '<span style="color: green;">✓ Read</span>'}
+                    \`;
+                    container.appendChild(div);
+                });
+            });
+            
+            socket.on('newNotification', (notification) => {
+                console.log('New notification received:', notification);
+                getNotifications(); // Refresh notifications
+                
+                // Show browser notification if supported
+                if (Notification.permission === 'granted') {
+                    new Notification(notification.title, {
+                        body: notification.message,
+                        icon: '/favicon.ico'
+                    });
+                }
+            });
+            
+            socket.on('notificationRead', (notificationId) => {
+                console.log('Notification marked as read:', notificationId);
+            });
+            
+            // Request notification permission
+            if (Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+            
+            // Auto-connect user 1 on load
+            window.onload = () => {
+                connectUser();
+                getNotifications();
+            };
+        </script>
+    </body>
+    </html>
+  `);
+});
+
+// Cron job - ກວດເບິ່ງ timers ທຸກໆ 5 ນາທີ
+cron.schedule('*/5 * * * *', async () => {
+  console.log('🔄 Running timer check...');
+  await TimerService.checkExpiringTimers();
+});
+
+// Helper function to send notification to user
+async function sendNotificationToUser(userId, notification) {
+  const socketId = connectedUsers.get(parseInt(userId));
+  if (socketId) {
+    io.to(socketId).emit('newNotification', notification);
+    const unreadCount = await NotificationService.getUnreadCount(userId);
+    io.to(socketId).emit('unreadCount', unreadCount);
+    console.log(`📤 Notification sent to user ${userId}`);
+  } else {
+    console.log(`📴 User ${userId} is offline`);
+  }
+}
+
+// Initialize database and start server
+async function startServer() {
+  try {
+    // Test database connection
+    await db.sequelize.authenticate();
+    console.log('✅ Database connected successfully');
+    
+    // Sync database (creates tables if they don't exist)
+    await db.sequelize.sync({ force: false }); // Set to true to recreate tables
+    console.log('✅ Database synced');
+    
+    // Create test users if they don't exist
+    const users = await db.User.findAll();
+    if (users.length === 0) {
+      await db.User.bulkCreate([
+        {
+          username: 'testuser1',
+          email: 'user1@test.com',
+          first_name: 'User',
+          last_name: 'One'
+        },
+        {
+          username: 'testuser2',
+          email: 'user2@test.com',
+          first_name: 'User',
+          last_name: 'Two'
+        }
+      ]);
+      console.log('✅ Test users created');
+    }
+    
+    const PORT = process.env.PORT || 3000;
+    server.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🌐 Open http://localhost:${PORT} to test notifications`);
+    });
+    
+  } catch (error) {
+    console.error('❌ Unable to start server:', error);
+  }
+}
+
+// ==========================================
+// migrations/001-create-users.js
+'use strict';
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('users', {
+      user_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      username: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true
+      },
+      email: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+        unique: true
+      },
+      first_name: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      last_name: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      socket_id: {
+        type: Sequelize.STRING(100),
+        allowNull: true
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
+    });
+
+    // Add indexes for PostgreSQL
+    await queryInterface.addIndex('users', ['username']);
+    await queryInterface.addIndex('users', ['email']);
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('users');
+  }
+};
+
+// ==========================================
+// migrations/002-create-notifications.js
+'use strict';
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('notifications', {
+      notification_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'user_id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      notification_type: {
+        type: Sequelize.ENUM(
+          'timer_warning', 
+          'timer_expired', 
+          'decision_required', 
+          'partner_decision',
+          'match_found',
+          'message_received'
+        ),
+        allowNull: false
+      },
+      title: {
+        type: Sequelize.STRING(200),
+        allowNull: false
+      },
+      message: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      related_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      related_type: {
+        type: Sequelize.ENUM('timer', 'conversation', 'match', 'message'),
+        allowNull: true
+      },
+      is_read: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      is_urgent: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      scheduled_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      sent_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      read_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      expires_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
+    });
+
+    // Add indexes
+    await queryInterface.addIndex('notifications', ['user_id']);
+    await queryInterface.addIndex('notifications', ['is_read']);
+    await queryInterface.addIndex('notifications', ['notification_type']);
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('notifications');
+  }
+};
+
+// ==========================================
+// migrations/003-create-conversation-timers.js
+'use strict';
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('conversation_timers', {
+      timer_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      conversation_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      user1_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      user2_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      phase_number: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1
+      },
+      phase_name: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      duration_days: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      starts_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      ends_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      is_completed: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      completed_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      result: {
+        type: Sequelize.ENUM('both_continue', 'user1_stop', 'user2_stop', 'expired'),
+        allowNull: true
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      }
+    });
+
+    // Add indexes
+    await queryInterface.addIndex('conversation_timers', ['conversation_id']);
+    await queryInterface.addIndex('conversation_timers', ['is_active']);
+    await queryInterface.addIndex('conversation_timers', ['ends_at']);
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('conversation_timers');
+  }
+};
+
+// ==========================================
+// .sequelizerc
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve('config', 'database.js'),
+  'models-path': path.resolve('models'),
+  'seeders-path': path.resolve('seeders'),
+  'migrations-path': path.resolve('migrations')
+};
+
+// ==========================================
+// README.md
+# 🔔 Notification System for Love App
+
+## ຄຳອະທິບາຍ (Description)
+ລະບົບ Notification ສຳລັບ Dating App ທີ່ມີ real-time notifications, countdown timers, ແລະ automatic scheduling.
+
+## 🚀 ການຕິດຕັ້ງ (Installation)
+
+### 1. Clone project
+\`\`\`bash
+mkdir notification-system
+cd notification-system
+\`\`\`
+
+### 2. ຕິດຕັ້ງ dependencies
+\`\`\`bash
+npm install
+\`\`\`
+
+### 3. ສ້າງ database
+\`\`\`sql
+CREATE DATABASE notification_test;
+\`\`\`
+
+### 4. ແກ້ໄຂ .env file
+\`\`\`env
+NODE_ENV=development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=notification_test
+DB_USER=root
+DB_PASS=your_password
+\`\`\`
+
+### 5. Run migrations
+\`\`\`bash
+npx sequelize-cli db:migrate
+\`\`\`
+
+### 6. Start server
+\`\`\`bash
+npm run dev
+\`\`\`
+
+### 7. ເປີດໃນ browser
+\`\`\`
+http://localhost:3000
+\`\`\`
+
+## 🎯 ຟີເຈີທີ່ທົດສອບໄດ້ (Features to Test)
+
+### ✅ Real-time Notifications
+- ສົ່ງ notification ແບບ real-time
+- ນັບຈຳນວນ unread notifications
+- Mark as read functionality
+
+### ⏰ Timer System
+- ສ້າງ countdown timers ສຳລັບແຕ່ລະໄລຍະ
+- ກວດເບິ່ງ timers ທີ່ໃກ້ໝົດເວລາ
+- Auto-expire timers
+
+### 🔄 Automatic Scheduling
+- Cron job ທຸກໆ 5 ນາທີ
+- ແຈ້ງເຕືອນກ່ອນໝົດເວລາ 12 ຊົ່ວໂມງ ແລະ 3 ຊົ່ວໂມງ
+
+## 📱 ການທົດສອບ (Testing)
+
+### 1. ເປີດ browser 2 tabs
+- Tab 1: User ID = 1  
+- Tab 2: User ID = 2
+
+### 2. ທົດສອບ notifications
+- Click "Send Test Notification"
+- ເບິ່ງ notification ປະກົດແບບ real-time
+
+### 3. ທົດສອບ timers
+- Click "Create Test Timer" 
+- ເບິ່ງ countdown ແລະ notifications
+
+### 4. ທົດສອບ mark as read
+- Click "Mark as Read"
+- ເບິ່ງ unread count ຫຼຸດລົງ
+
+## 🗂️ ໂຄງສ້າງ Project
+
+\`\`\`
+notification-system/
+├── config/
+│   └── database.js          # Database configuration
+├── migrations/
+│   ├── 001-create-users.js
+│   ├── 002-create-notifications.js
+│   └── 003-create-conversation-timers.js
+├── models/
+│   ├── index.js            # Database connection
+│   ├── User.js             # User model
+│   ├── Notification.js     # Notification model
+│   └── ConversationTimer.js # Timer model
+├── services/
+│   ├── notificationService.js # Notification logic
+│   └── timerService.js     # Timer logic
+├── .env                    # Environment variables
+├── .sequelizerc           # Sequelize configuration
+├── package.json
+└── server.js              # Main server file
+\`\`\`
+
+## 🔧 API Endpoints
+
+### GET /api/notifications/:userId
+ດຶງ notifications ຂອງ user
+
+### POST /api/test-notification
+ສ້າງ test notification
+\`\`\`json
+{
+  "userId": 1,
+  "type": "timer_warning",
+  "title": "Test Title",
+  "message": "Test Message"
+}
+\`\`\`
+
+### POST /api/test-timer
+ສ້າງ test timer
+\`\`\`json
+{
+  "conversationId": 1,
+  "user1Id": 1,
+  "user2Id": 2,
+  "phaseNumber": 1
+}
+\`\`\`
+
+### GET /api/timers
+ດຶງ active timers ທັງໝົດ
+
+## 🎮 Socket Events
+
+### Client to Server:
+- \`join\` - User connects with ID
+- \`getNotifications\` - Request notifications
+- \`markAsRead\` - Mark notification as read
+
+### Server to Client:
+- \`newNotification\` - New notification received
+- \`unreadCount\` - Updated unread count
+- \`notifications\` - List of notifications
+- \`notificationRead\` - Notification marked as read
+
+## 🔄 Timer Phases
+1. **Phase 1**: 3 ວັນ (ເລີ່ມຕົ້ນ)
+2. **Phase 2**: 7 ວັນ (ຖ້າທັງສອງສືບຕໍ່)
+3. **Phase 3**: 31 ວັນ (ຖ້າທັງສອງສືບຕໍ່)
+4. **Phase 4**: 1 ປີ (ໄລຍະສຸດທ້າຍ)
+
+## 🚨 Notification Types
+- \`timer_warning\` - ເວລາໃກ້ໝົດ
+- \`timer_expired\` - ເວລາໝົດແລ້ວ
+- \`decision_required\` - ຕ້ອງຕັດສິນໃຈ
+- \`partner_decision\` - ຄູ່ຕັດສິນໃຈແລ້ວ
+- \`match_found\` - ພົບຄູ່ໃໝ່
+- \`message_received\` - ໄດ້ຮັບຂໍ້ຄວາມ
+
+ລະບົບນີ້ພ້ອມໃຊ້ງານແລ້ວ! 🎉
