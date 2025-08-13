@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Love Match - ຫາຄູ່ຮັກ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            color: #ff6b9d;
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ff6b9d;
+        }
+
+        /* Content Areas */
+        .content {
+            padding: 20px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Match Cards */
+        .match-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .match-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+            color: white;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-info .details {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .match-percentage {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .interest-tag {
+            background: rgba(255, 107, 157, 0.1);
+            color: #ff6b9d;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-like {
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc);
+            color: white;
+        }
+
+        .btn-pass {
+            background: #f1f2f6;
+            color: #666;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-user {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-user .avatar {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .countdown-timer {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message.sent {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            word-wrap: break-word;
+        }
+
+        .message.received .message-bubble {
+            background: #f1f2f6;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .decision-prompt {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-continue {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #e17055, #fdcb6e);
+            color: white;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 15px;
+            color: white;
+            position: relative;
+        }
+
+        .edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #ff6b9d;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-card h3 {
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-card h3 i {
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        /* Post Creation */
+        .post-creator {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .post-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .post-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .post-option {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .post-option:hover {
+            background: rgba(255, 107, 157, 0.1);
+            color: #ff6b9d;
+        }
+
+        .btn-post {
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 414px;
+            background: white;
+            display: flex;
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: #ff6b9d;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 414px) {
+            .app-container {
+                max-width: 100%;
+            }
+            
+            .bottom-nav {
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6b9d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="notification-badge" onclick="showNotifications()">3</div>
+            <h1>💕 Love Match</h1>
+            <div class="subtitle">ຫາຄູ່ຮັກທີ່ແທ້ຈິງ</div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('home')">
+                <i class="fas fa-home"></i> Home
+            </button>
+            <button class="nav-tab" onclick="showSection('matches')">
+                <i class="fas fa-heart"></i> Matches
+            </button>
+            <button class="nav-tab" onclick="showSection('chat')">
+                <i class="fas fa-comments"></i> Chat
+            </button>
+            <button class="nav-tab" onclick="showSection('profile')">
+                <i class="fas fa-user"></i> Profile
+            </button>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content">
+            <!-- Home Section -->
+            <div id="home" class="content-section active">
+                <!-- Post Creator -->
+                <div class="post-creator">
+                    <textarea class="post-input" placeholder="ແບ່ງປັນຄວາມຄິດ ຫຼື ລິ້ງທີ່ມັກ..."></textarea>
+                    <div class="post-actions">
+                        <div class="post-options">
+                            <button class="post-option" title="ເພີ່ມຮູບ">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button class="post-option" title="ເພີ່ມລິ້ງ">
+                                <i class="fas fa-link"></i>
+                            </button>
+                            <button class="post-option" title="ສະຖານທີ່">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </button>
+                        </div>
+                        <button class="btn-post">ໂພສ</button>
+                    </div>
+                </div>
+
+                <!-- Sample Posts -->
+                <div class="match-card">
+                    <div class="match-header">
+                        <div class="avatar">👩</div>
+                        <div class="user-info">
+                            <h3>ນາງ ສາຍ</h3>
+                            <div class="details">25 ປີ • ວຽງຈັນ • 2 ຊົ່ວໂມງແລ້ວ</div>
+                        </div>
+                    </div>
+                    <p>ມື້ນີ້ໄປຫຼິ້ນຫນຽງທອງ ສົມໄປຫາຄູ່ລົງຫຼິ້ນນຳກັນ! 🎾</p>
+                    <div class="interests">
+                        <span class="interest-tag">ກິລາ</span>
+                        <span class="interest-tag">ທອງ</span>
+                        <span class="interest-tag">ອອກກຳລັງກາຍ</span>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <i class="fas fa-heart" style="color: #ff6b9d; margin-right: 5px;"></i>
+                        <span style="color: #666;">15 ຄົນມັກ</span>
+                        <i class="fas fa-comment" style="color: #666; margin-left: 15px; margin-right: 5px;"></i>
+                        <span style="color: #666;">3 ຄອມເມັນ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matches Section -->
+            <div id="matches" class="content-section">
+                <div class="match-card">
+                    <div class="match-percentage">95%</div>
+                    <div class="match-header">
+                        <div class="avatar">👨</div>
+                        <div class="user-info">
+                            <h3>ທ້າວ ວິໄລ</h3>
+                            <div class="details">28 ປີ • ວຽງຈັນ • Software Developer</div>
+                        </div>
+                    </div>
+                    <div class="interests">
+                        <span class="interest-tag">Programming</span>
+                        <span class="interest-tag">ດົນຕີ</span>
+                        <span class="interest-tag">ທ່ອງທ່ຽວ</span>
+                        <span class="interest-tag">ກາເຟ</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">ມັກ coding ແລະ ຟັງດົນຕີ ຊອກຫາຄົນທີ່ມີຄວາມຝັນຄືກັນ</p>
+                    <div class="action-buttons">
+                        <button class="btn btn-pass">
+                            <i class="fas fa-times"></i> ຜ່ານ
+                        </button>
+                        <button class="btn btn-like" onclick="showLikeAnimation()">
+                            <i class="fas fa-heart"></i> ມັກ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-percentage">87%</div>
+                    <div class="match-header">
+                        <div class="avatar">👩</div>
+                        <div class="user-info">
+                            <h3>ນາງ ແສງດາວ</h3>
+                            <div class="details">26 ປີ • ວຽງຈັນ • Teacher</div>
+                        </div>
+                    </div>
+                    <div class="interests">
+                        <span class="interest-tag">ອ່ານປື້ມ</span>
+                        <span class="interest-tag">ເຮັດອາຫານ</span>
+                        <span class="interest-tag">ປູກດອກໄມ້</span>
+                    </div>
+                    <p style="color: #666; margin: 10px 0;">ມັກຄວາມງຽບສະຫງົບ ຮັກທຳມະຊາດ ແລະ ການອ່ານ</p>
+                    <div class="action-buttons">
+                        <button class="btn btn-pass">
+                            <i class="fas fa-times"></i> ຜ່ານ
+                        </button>
+                        <button class="btn btn-like">
+                            <i class="fas fa-heart"></i> ມັກ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div id="chat" class="content-section">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-user">
+                            <div class="avatar">👩</div>
+                            <div>
+                                <div style="font-weight: bold;">ນາງ ມາລີ</div>
+                                <div style="font-size: 12px; opacity: 0.8;">ກຳລັງອ່ານ...</div>
+                            </div>
+                        </div>
+                        <div class="countdown-timer">
+                            <i class="fas fa-clock"></i> 2 ວັນ 14:23:45
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="message received">
+                            <div class="message-bubble">ສະບາຍດີ! ຍິນດີທີ່ໄດ້ຮູ້ຈັກ 😊</div>
+                            <div class="message-time">10:30 AM</div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">ສະບາຍດີຄັບ! ດີໃຈທີ່ໄດ້ match ກັນ</div>
+                            <div class="message-time">10:32 AM</div>
+                        </div>
+                        <div class="message received">
+                            <div class="message-bubble">ເຈົ້າມັກເຮັດຫຍັງໃນເວລາວ່າງ?</div>
+                            <div class="message-time">10:35 AM</div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">ມັກອ່ານປື້ມແລະຟັງດົນຕີ ແລ້ວເຈົ້າລະ?</div>
+                            <div class="message-time">10:38 AM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decision Prompt -->
+                <div class="decision-prompt">
+                    <h3 style="margin-bottom: 10px;">⏰ ເວລາໃກ້ໝົດແລ້ວ!</h3>
+                    <p>ເຈົ້າຕ້ອງການສືບຕໍ່ສົນທະນາໄປອີກ 7 ວັນບໍ?</p>
+                    <div class="decision-buttons">
+                        <button class="btn btn-continue" onclick="makeDecision('continue')">
+                            <i class="fas fa-heart"></i> ສືບຕໍ່ 7 ວັນ
+                        </button>
+                        <button class="btn btn-stop" onclick="makeDecision('stop')">
+                            <i class="fas fa-times"></i> ຢຸດທີ່ນີ່
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile" class="content-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        👤
+                        <div class="edit-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <h2>ທ້າວ ຈັນທະ</h2>
+                    <p style="color: #666;">27 ປີ • ວຽງຈັນ</p>
+                </div>
+
+                <div class="profile-card">
+                    <h3><i class="fas fa-user"></i> ຂໍ້ມູນສ່ວນຕົວ</h3>
+                    <div class="form-group">
+                        <label>ກ່ຽວກັບຂ້ອຍ</label>
+                        <textarea class="form-control" rows="3" placeholder="ແນະນຳຕົວເອງ...">ມັກເຮັດວຽກກັບເທັກໂນໂລຢີ ແລະ ຊອກຫາຄົນທີ່ມີຄວາມຝັນຄືກັນ</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>ອາຊີບ</label>
+                        <input type="text" class="form-control" value="Software Developer">
+                    </div>
+                    <div class="form-group">
+                        <label>ການສຶກສາ</label>
+                        <input type="text" class="form-control" value="ປະລິນຍາຕີ ວິທະຍາສາດຄອມພິວເຕີ">
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <h3><i class="fas fa-heart"></i> ຄວາມສົນໃຈ</h3>
+                    <div class="interests">
+                        <span class="interest-tag">Programming <i class="fas fa-times" style="margin-left: 5px;"></i></span>
+                        <span class="interest-tag">ດົນຕີ <i class="fas fa-times" style="margin-left: 5px;"></i></span>
+                        <span class="interest-tag">ທ່ອງທ່ຽວ <i class="fas fa-times" style="margin-left: 5px;"></i></span>
+                        <span class="interest-tag">ກາເຟ <i class="fas fa-times" style="margin-left: 5px;"></i></span>
+                    </div>
+                    <button class="btn" style="background: #f1f2f6; color: #666; margin-top: 15px; width: 100%;">
+                        <i class="fas fa-plus"></i> ເພີ່ມຄວາມສົນໃຈ
+                    </button>
+                </div>
+
+                <div class="profile-card">
+                    <h3><i class="fas fa-search"></i> ຄວາມຕ້ອງການ</h3>
+                    <div class="form-group">
+                        <label>ເພດທີ່ຕ້ອງການ</label>
+                        <select class="form-control">
+                            <option>ຍິງ</option>
+                            <option>ຊາຍ</option>
+                            <option>ທັງສອງ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ຊ່ວງອາຍຸ</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" class="form-control" value="23" placeholder="ຕ່ຳສຸດ">
+                            <input type="number" class="form-control" value="32" placeholder="ສູງສຸດ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="showSection('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showSection('matches')">
+                <i class="fas fa-heart"></i>
+                <span>Matches</span>
+            </div>
+            <div class="nav-item" onclick="showSection('chat')">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </div>
+            <div class="nav-item" onclick="showSection('profile')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show different sections
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Hide all nav tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Activate corresponding nav tab
+            const activeTab = document.querySelector(`.nav-tab[onclick="showSection('${sectionName}')"]`);
+            if (activeTab) activeTab.classList.add('active');
+            
+            const activeNavItem = document.querySelector(`.nav-item[onclick="showSection('${sectionName}')"]`);
+            if (activeNavItem) activeNavItem.classList.add('active');
+        }
+
+        // Like animation
+        function showLikeAnimation() {
+            const button = event.target.closest('.btn-like');
+            button.style.transform = 'scale(1.2)';
+            button.style.background = 'linear-gradient(135deg, #ff4757, #ff3742)';
+            
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                button.innerHTML = '<i class="fas fa-check"></i> ມັກແລ້ວ';
+                button.style.background = 'linear-gradient(135deg, #00b894, #00cec9)';
+            }, 200);
+
+            // Show match notification
+            setTimeout(() => {
+                alert('🎉 ມັນເປັນ Match! ທ່ານສາມາດເລີ່ມສົນທະນາໄດ້ແລ້ວ');
+            }, 1000);
+        }
+
+        // Decision making
+        function makeDecision(decision) {
+            if (decision === 'continue') {
+                alert('✅ ເຈົ້າເລືອກສືບຕໍ່! ລໍຖ້າການຕັດສິນໃຈຂອງຄູ່...');
+                // Simulate partner decision
+                setTimeout(() => {
+                    const partnerDecision = Math.random() > 0.3; // 70% chance partner also continues
+                    if (partnerDecision) {
+                        alert('🎉 ຄູ່ຂອງເຈົ້າກໍ່ຕ້ອງການສືບຕໍ່! ຕອນນີ້ມີເວລາ 7 ວັນ');
+                        updateCountdown('7 ວັນ 00:00:00');
+                    } else {
+                        alert('💔 ເສຍໃຈ... ຄູ່ຂອງເຈົ້າເລືອກຢຸດ');
+                        showSection('matches');
+                    }
+                }, 2000);
+            } else {
+                alert('👋 ເຈົ້າເລືອກຢຸດການສົນທະນາ. ຂໍໂຊກດີໃນການຫາຄູ່ຄັ້ງຕໍ່ໄປ!');
+                showSection('matches');
+            }
+        }
+
+        // Update countdown timer
+        function updateCountdown(newTime) {
+            const timer = document.querySelector('.countdown-timer');
+            if (timer) {
+                timer.innerHTML = `<i class="fas fa-clock"></i> ${newTime}`;
+            }
+        }
+
+        // Show notifications
+        function showNotifications() {
+            const notifications = [
+                '💕 ທ້າວ ວິໄລ ມັກໂປຣໄຟລ໌ຂອງເຈົ້າ!',
+                '⏰ ການສົນທະນາກັບ ນາງ ມາລີ ເຫຼືອ 12 ຊົ່ວໂມງ',
+                '🎉 ເຈົ້າມີ Match ໃໝ່! ເບິ່ງໃນໜ້າ Matches'
+            ];
+            
+            alert(notifications.join('\n\n'));
+        }
+
+        // Auto-refresh countdown timer
+        function startCountdownTimer() {
+            setInterval(() => {
+                const timers = document.querySelectorAll('.countdown-timer');
+                timers.forEach(timer => {
+                    const timeText = timer.textContent.trim();
+                    if (timeText.includes('ວັນ') && timeText.includes(':')) {
+                        // Simulate countdown (in real app, this would be calculated from server time)
+                        const currentTime = new Date(timer.dataset.endTime || Date.now() + 2*24*60*60*1000);
+                        const now = new Date();
+                        const diff = currentTime - now;
+                        
+                        if (diff > 0) {
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                            
+                            timer.innerHTML = `<i class="fas fa-clock"></i> ${days} ວັນ ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                            
+                            // Change color when time is running out
+                            if (diff < 24 * 60 * 60 * 1000) { // Less than 1 day
+                                timer.style.background = 'rgba(255, 71, 87, 0.3)';
+                                timer.style.animation = 'pulse 1s infinite';
+                            }
+                        } else {
+                            timer.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ໝົດເວລາ!';
+                            timer.style.background = 'rgba(255, 71, 87, 0.5)';
+                        }
+                    }
+                });
+            }, 1000);
+        }
+
+        // Add smooth scrolling for better UX
+        function smoothScrollTo(element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add typing indicator simulation
+        function showTypingIndicator() {
+            const chatMessages = document.querySelector('.chat-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message received typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="message-bubble" style="background: #f1f2f6;">
+                    <span style="animation: typing 1.5s infinite;">...</span>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                typingDiv.remove();
+            }, 3000);
+        }
+
+        // Add post interaction
+        function toggleLike(element) {
+            const heartIcon = element.querySelector('.fa-heart');
+            const likeCount = element.querySelector('.like-count');
+            
+            if (heartIcon.style.color === 'rgb(255, 107, 157)') {
+                heartIcon.style.color = '#666';
+                likeCount.textContent = parseInt(likeCount.textContent) - 1 + ' ຄົນມັກ';
+            } else {
+                heartIcon.style.color = '#ff6b9d';
+                likeCount.textContent = parseInt(likeCount.textContent) + 1 + ' ຄົນມັກ';
+                
+                // Add heart animation
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.left = event.clientX + 'px';
+                heart.style.top = event.clientY + 'px';
+                heart.style.fontSize = '20px';
+                heart.style.animation = 'heartFloat 1s ease-out';
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '9999';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes typing {
+                0%, 60%, 100% { opacity: 1; }
+                30% { opacity: 0.5; }
+            }
+            
+            @keyframes heartFloat {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(-50px); opacity: 0; }
+            }
+            
+            .typing-indicator .message-bubble {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .typing-indicator .message-bubble::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                animation: shimmer 2s infinite;
+            }
+            
+            @keyframes shimmer {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start countdown timer
+            startCountdownTimer();
+            
+            // Add click handlers for posts
+            const posts = document.querySelectorAll('.match-card');
+            posts.forEach(post => {
+                const heartIcon = post.querySelector('.fa-heart');
+                if (heartIcon && heartIcon.closest('.match-card')) {
+                    heartIcon.style.cursor = 'pointer';
+                    heartIcon.onclick = (e) => {
+                        e.stopPropagation();
+                        toggleLike(post);
+                    };
+                }
+            });
+            
+            // Add typing simulation for demo
+            setTimeout(() => {
+                if (document.getElementById('chat').classList.contains('active')) {
+                    showTypingIndicator();
+                }
+            }, 5000);
+        });
+
+        // Service Worker simulation for PWA features
+        if ('serviceWorker' in navigator) {
+            console.log('💻 PWA Ready - ສາມາດຕິດຕັ້ງເປັນ App ໄດ້');
+        }
+
+        // Add vibration for mobile interactions
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Add all interactive elements vibration
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('button, .nav-tab, .nav-item')) {
+                vibrate();
+            }
+        });
+    </script>
+</body>
+</html>
