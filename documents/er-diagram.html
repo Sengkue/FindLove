@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dating App - ER Diagram & Process Flow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .diagram-section {
+            margin-bottom: 50px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+        
+        .er-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .entity {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 180px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .entity h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        
+        .attributes {
+            font-size: 12px;
+            text-align: left;
+        }
+        
+        .relationship {
+            background: #FF9800;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .process-step {
+            background: #2196F3;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 300px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .decision {
+            background: #FF5722;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50%;
+            text-align: center;
+            max-width: 200px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            padding: 20px;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #666;
+        }
+        
+        .connection-line {
+            width: 2px;
+            height: 30px;
+            background: #666;
+            margin: 0 auto;
+        }
+        
+        .branch {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .branch-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .match-percentage {
+            background: #9C27B0;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        .time-limit {
+            background: #607D8B;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 3px;
+            display: inline-block;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌺 Love Matching App - Database Design & Process Flow</h1>
+        
+        <div class="diagram-section">
+            <h2>📊 Entity Relationship (ER) Diagram</h2>
+            <div class="er-diagram">
+                <div class="entity">
+                    <h3>👤 Users</h3>
+                    <div class="attributes">
+                        • user_id (PK)<br>
+                        • username<br>
+                        • email<br>
+                        • password_hash<br>
+                        • gender<br>
+                        • age<br>
+                        • location<br>
+                        • profile_image<br>
+                        • created_at<br>
+                        • is_active
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>💝 User_Interests</h3>
+                    <div class="attributes">
+                        • interest_id (PK)<br>
+                        • user_id (FK)<br>
+                        • interest_name<br>
+                        • interest_description<br>
+                        • interest_category<br>
+                        • skill_level<br>
+                        • created_at
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>💕 Matches</h3>
+                    <div class="attributes">
+                        • match_id (PK)<br>
+                        • user1_id (FK)<br>
+                        • user2_id (FK)<br>
+                        • match_percentage<br>
+                        • match_date<br>
+                        • status<br>
+                        • both_interested<br>
+                        • conversation_limit<br>
+                        • expires_at
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>🗨️ Conversations</h3>
+                    <div class="attributes">
+                        • conversation_id (PK)<br>
+                        • match_id (FK)<br>
+                        • started_at<br>
+                        • time_limit_days<br>
+                        • status<br>
+                        • user1_continue<br>
+                        • user2_continue<br>
+                        • ended_at
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>💌 Messages</h3>
+                    <div class="attributes">
+                        • message_id (PK)<br>
+                        • conversation_id (FK)<br>
+                        • sender_id (FK)<br>
+                        • message_text<br>
+                        • sent_at<br>
+                        • read_at
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>🎁 Products</h3>
+                    <div class="attributes">
+                        • product_id (PK)<br>
+                        • product_name<br>
+                        • description<br>
+                        • price<br>
+                        • category<br>
+                        • image_url<br>
+                        • is_active
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>🛍️ Gift_Suggestions</h3>
+                    <div class="attributes">
+                        • suggestion_id (PK)<br>
+                        • match_id (FK)<br>
+                        • product_id (FK)<br>
+                        • suggested_by<br>
+                        • suggested_at<br>
+                        • purchased<br>
+                        • purchase_date
+                    </div>
+                </div>
+                
+                <div class="entity">
+                    <h3>🔄 Relationship_Requests</h3>
+                    <div class="attributes">
+                        • request_id (PK)<br>
+                        • match_id (FK)<br>
+                        • requester_id (FK)<br>
+                        • request_type<br>
+                        • status<br>
+                        • requested_at<br>
+                        • responded_at
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagram-section">
+            <h2>🔄 Application Process Flow</h2>
+            <div class="flow-diagram">
+                
+                <div class="process-step">
+                    <strong>1️⃣ User Registration & Login</strong><br>
+                    Sign up with email/username<br>
+                    Create secure login credentials
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>2️⃣ Create Personal Profile</strong><br>
+                    Add interests, hobbies, skills<br>
+                    Upload photos and preferences<br>
+                    Set location and age range
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>3️⃣ Smart Matching Algorithm</strong><br>
+                    Find users with similar interests<br>
+                    Calculate compatibility percentages<br>
+                    <div style="margin-top: 10px;">
+                        <div class="match-percentage">70% Match</div>
+                        <div class="match-percentage">80% Match</div>
+                        <div class="match-percentage">90% Match</div>
+                        <div class="match-percentage">99% Match</div>
+                    </div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>4️⃣ Gender Filter & Selection</strong><br>
+                    Choose: Male / Female / Both<br>
+                    Browse potential matches<br>
+                    View compatibility details
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>5️⃣ Mutual Interest Check</strong><br>
+                    Both users must show interest<br>
+                    Send relationship request<br>
+                    (Boyfriend/Girlfriend status)
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>6️⃣ Time-Limited Conversation</strong><br>
+                    Choose conversation duration:<br>
+                    <div style="margin-top: 8px;">
+                        <div class="time-limit">3 Days</div>
+                        <div class="time-limit">7 Days</div>
+                        <div class="time-limit">31 Days</div>
+                        <div class="time-limit">1 Year</div>
+                    </div>
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="process-step">
+                    <strong>7️⃣ 3-Day Decision Point</strong><br>
+                    Both users decide: Continue or Stop<br>
+                    Automatic check after 3 days
+                </div>
+                <div class="arrow">⬇️</div>
+                
+                <div class="decision" style="background: #FF5722; color: white; padding: 20px; border-radius: 10px; clip-path: none;">
+                    <strong>Decision: Continue?</strong><br>
+                    Both must agree
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-item">
+                        <div class="process-step" style="background: #4CAF50;">
+                            <strong>✅ Both Continue</strong><br>
+                            Proceed with relationship<br>
+                            Access gift suggestions<br>
+                            Continue conversations
+                        </div>
+                        <div class="arrow">⬇️</div>
+                        <div class="process-step" style="background: #9C27B0;">
+                            <strong>8️⃣ Gift Marketplace</strong><br>
+                            AI suggests personalized gifts<br>
+                            Browse product catalog<br>
+                            Purchase and send gifts
+                        </div>
+                    </div>
+                    
+                    <div class="branch-item">
+                        <div class="process-step" style="background: #F44336;">
+                            <strong>❌ Either Stops</strong><br>
+                            Match terminated<br>
+                            Return to Step 3<br>
+                            Find new matches
+                        </div>
+                        <div class="arrow">⬇️</div>
+                        <div class="process-step" style="background: #607D8B;">
+                            <strong>🔄 Back to Matching</strong><br>
+                            Algorithm suggests new users<br>
+                            Fresh start with new potential<br>
+                            Updated preferences applied
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="diagram-section">
+            <h2>🔗 Key Relationships</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <div class="relationship">Users ↔ User_Interests<br>(One-to-Many)</div>
+                <div class="relationship">Users ↔ Matches<br>(Many-to-Many)</div>
+                <div class="relationship">Matches ↔ Conversations<br>(One-to-One)</div>
+                <div class="relationship">Conversations ↔ Messages<br>(One-to-Many)</div>
+                <div class="relationship">Matches ↔ Gift_Suggestions<br>(One-to-Many)</div>
+                <div class="relationship">Products ↔ Gift_Suggestions<br>(One-to-Many)</div>
+                <div class="relationship">Matches ↔ Relationship_Requests<br>(One-to-Many)</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: #E8F5E8; border-radius: 10px;">
+            <h3>✨ Special Features</h3>
+            <p><strong>🎯 Smart Matching:</strong> Algorithm considers shared interests, location proximity, and compatibility scores</p>
+            <p><strong>⏰ Time Management:</strong> Structured conversation periods prevent endless chatting without commitment</p>
+            <p><strong>🛡️ Mutual Consent:</strong> Both users must actively choose to continue at each stage</p>
+            <p><strong>🎁 Monetization:</strong> Integrated gift marketplace with personalized AI recommendations</p>
+            <p><strong>💝 Relationship Goals:</strong> Clear progression from matching to official boyfriend/girlfriend status</p>
+        </div>
+    </div>
+</body>
+</html>
