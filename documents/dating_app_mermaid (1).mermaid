@@ -1,0 +1,315 @@
+erDiagram
+    %% LOVE MATCHING SYSTEM
+    USERS {
+        int user_id PK
+        string username
+        string email
+        string password_hash
+        string first_name
+        string last_name
+        string gender
+        int age
+        date birth_date
+        string location
+        string profile_image
+        text bio
+        datetime created_at
+        datetime last_active
+        boolean is_active
+        boolean is_verified
+    }
+    
+    USER_INTERESTS {
+        int interest_id PK
+        int user_id FK
+        string interest_name
+        text interest_description
+        string interest_category
+        string skill_level
+        int priority_level
+        datetime created_at
+        boolean is_active
+    }
+    
+    USER_PREFERENCES {
+        int preference_id PK
+        int user_id FK
+        string preferred_gender
+        int min_age
+        int max_age
+        int max_distance_km
+        string relationship_type
+        datetime updated_at
+    }
+    
+    MATCHES {
+        int match_id PK
+        int user1_id FK
+        int user2_id FK
+        float match_percentage
+        text compatibility_details
+        datetime match_date
+        string status
+        boolean user1_interested
+        boolean user2_interested
+        boolean both_interested
+        datetime expires_at
+    }
+    
+    CONVERSATIONS {
+        int conversation_id PK
+        int match_id FK
+        datetime started_at
+        int time_limit_days
+        string status
+        boolean user1_continue
+        boolean user2_continue
+        datetime decision_deadline
+        datetime ended_at
+        string end_reason
+    }
+    
+    MESSAGES {
+        int message_id PK
+        int conversation_id FK
+        int sender_id FK
+        text message_text
+        string message_type
+        datetime sent_at
+        datetime read_at
+        boolean is_deleted
+    }
+    
+    RELATIONSHIP_REQUESTS {
+        int request_id PK
+        int match_id FK
+        int requester_id FK
+        int receiver_id FK
+        string request_type
+        string status
+        text message
+        datetime requested_at
+        datetime responded_at
+        datetime expires_at
+    }
+    
+    BLOCKING {
+        int block_id PK
+        int blocker_id FK
+        int blocked_id FK
+        text reason
+        datetime blocked_at
+    }
+    
+    USER_REPORTS {
+        int report_id PK
+        int reporter_id FK
+        int reported_id FK
+        string report_type
+        text description
+        string status
+        datetime reported_at
+        datetime resolved_at
+    }
+    
+    %% E-COMMERCE SYSTEM
+    CUSTOMERS {
+        int customer_id PK
+        int user_id FK "link to love system"
+        string email
+        string phone
+        text shipping_address
+        text billing_address
+        datetime registered_at
+        boolean is_active
+    }
+    
+    CATEGORIES {
+        int category_id PK
+        string category_name
+        text description
+        string image_url
+        int parent_category_id FK
+        int sort_order
+        boolean is_active
+    }
+    
+    SUPPLIERS {
+        int supplier_id PK
+        string supplier_name
+        string contact_person
+        string email
+        string phone
+        text address
+        string country
+        float rating
+        boolean is_active
+    }
+    
+    PRODUCTS {
+        int product_id PK
+        int category_id FK
+        int supplier_id FK
+        string product_name
+        text description
+        text specifications
+        decimal price
+        decimal cost_price
+        string sku
+        string barcode
+        text images
+        int stock_quantity
+        int min_stock_level
+        float weight
+        string dimensions
+        boolean is_digital
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+    
+    PRODUCT_VARIANTS {
+        int variant_id PK
+        int product_id FK
+        string variant_name
+        string color
+        string size
+        decimal price_adjustment
+        string sku
+        int stock_quantity
+        boolean is_active
+    }
+    
+    IMPORT_BATCHES {
+        int batch_id PK
+        int supplier_id FK
+        string batch_number
+        datetime import_date
+        decimal total_cost
+        int total_items
+        string status
+        text notes
+        datetime created_at
+    }
+    
+    IMPORT_ITEMS {
+        int import_item_id PK
+        int batch_id FK
+        int product_id FK
+        int variant_id FK
+        int quantity
+        decimal unit_cost
+        decimal total_cost
+        datetime expiry_date
+        string condition
+    }
+    
+    ORDERS {
+        int order_id PK
+        int customer_id FK
+        string order_number
+        datetime order_date
+        string status
+        decimal subtotal
+        decimal tax_amount
+        decimal shipping_cost
+        decimal discount_amount
+        decimal total_amount
+        text shipping_address
+        text billing_address
+        string payment_method
+        string payment_status
+        datetime shipped_at
+        datetime delivered_at
+        text notes
+    }
+    
+    ORDER_ITEMS {
+        int order_item_id PK
+        int order_id FK
+        int product_id FK
+        int variant_id FK
+        string product_name
+        int quantity
+        decimal unit_price
+        decimal total_price
+        boolean is_gift
+        text gift_message
+        int gift_for_user_id FK
+    }
+    
+    GIFT_SUGGESTIONS {
+        int suggestion_id PK
+        int customer_id FK
+        int product_id FK
+        int suggested_for_user_id FK "from love system"
+        string suggestion_reason
+        float relevance_score
+        datetime suggested_at
+        boolean was_purchased
+        datetime purchase_date
+        string status
+    }
+    
+    INVENTORY_MOVEMENTS {
+        int movement_id PK
+        int product_id FK
+        int variant_id FK
+        string movement_type
+        int quantity_change
+        int quantity_after
+        string reference_type
+        int reference_id
+        text notes
+        datetime created_at
+    }
+    
+    PROMOTIONS {
+        int promotion_id PK
+        string promotion_name
+        string promotion_type
+        decimal discount_value
+        string discount_type
+        datetime start_date
+        datetime end_date
+        int usage_limit
+        int used_count
+        text conditions
+        boolean is_active
+    }
+    
+    %% LOVE SYSTEM RELATIONSHIPS
+    USERS ||--o{ USER_INTERESTS : "has"
+    USERS ||--|| USER_PREFERENCES : "sets"
+    USERS ||--o{ MATCHES : "user1"
+    USERS ||--o{ MATCHES : "user2"
+    MATCHES ||--|| CONVERSATIONS : "creates"
+    CONVERSATIONS ||--o{ MESSAGES : "contains"
+    USERS ||--o{ MESSAGES : "sends"
+    MATCHES ||--o{ RELATIONSHIP_REQUESTS : "involves"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "requests"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "receives"
+    USERS ||--o{ BLOCKING : "blocker"
+    USERS ||--o{ BLOCKING : "blocked"
+    USERS ||--o{ USER_REPORTS : "reporter"
+    USERS ||--o{ USER_REPORTS : "reported"
+    
+    %% E-COMMERCE RELATIONSHIPS
+    USERS ||--|| CUSTOMERS : "becomes"
+    CATEGORIES ||--o{ CATEGORIES : "parent"
+    CATEGORIES ||--o{ PRODUCTS : "contains"
+    SUPPLIERS ||--o{ PRODUCTS : "supplies"
+    SUPPLIERS ||--o{ IMPORT_BATCHES : "delivers"
+    PRODUCTS ||--o{ PRODUCT_VARIANTS : "has"
+    IMPORT_BATCHES ||--o{ IMPORT_ITEMS : "contains"
+    IMPORT_ITEMS }o--|| PRODUCTS : "imports"
+    IMPORT_ITEMS }o--o| PRODUCT_VARIANTS : "imports"
+    CUSTOMERS ||--o{ ORDERS : "places"
+    ORDERS ||--o{ ORDER_ITEMS : "contains"
+    ORDER_ITEMS }o--|| PRODUCTS : "orders"
+    ORDER_ITEMS }o--o| PRODUCT_VARIANTS : "orders"
+    CUSTOMERS ||--o{ GIFT_SUGGESTIONS : "receives"
+    PRODUCTS ||--o{ GIFT_SUGGESTIONS : "suggested"
+    USERS ||--o{ GIFT_SUGGESTIONS : "for"
+    PRODUCTS ||--o{ INVENTORY_MOVEMENTS : "affects"
+    PRODUCT_VARIANTS ||--o{ INVENTORY_MOVEMENTS : "affects"
