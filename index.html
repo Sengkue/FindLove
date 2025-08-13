@@ -1465,4 +1465,63 @@
             button.disabled = true;
             
             setTimeout(() => {
-                // Show success animation
+        // Enhanced Section Navigation
+        function showSection(sectionName) {
+            // Hide all sections and remove active states
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Activate corresponding navigation items
+            document.querySelector(`.nav-tab[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+            document.querySelector(`.nav-item[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+            
+            // Add haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        // Enhanced Like Animation
+        function likePost(element) {
+            const likeCountSpan = element.parentElement.querySelector('.like-count');
+            const currentCount = parseInt(likeCountSpan.textContent);
+            
+            if (element.style.color === 'rgb(255, 107, 157)') {
+                // Unlike
+                element.style.color = 'rgba(255,255,255,0.6)';
+                likeCountSpan.textContent = currentCount - 1;
+            } else {
+                // Like
+                element.style.color = '#ff6b9d';
+                likeCountSpan.textContent = currentCount + 1;
+                
+                // Create floating heart animation
+                createFloatingHeart(element);
+                
+                // Add shake animation to button
+                element.style.animation = 'heartBeat 0.6s ease-in-out';
+                setTimeout(() => {
+                    element.style.animation = '';
+                }, 600);
+            }
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Enhanced Match Like with Success Animation
+        function likeMatch(button) {
+            // Add loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ກຳລັງສົ່ງ...';
+            button.disabled = true;
+            
+            setTimeout(() => {
