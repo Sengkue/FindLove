@@ -1,0 +1,97 @@
+erDiagram
+    USERS {
+        int user_id PK
+        string username
+        string email
+        string password_hash
+        string gender
+        int age
+        string location
+        string profile_image
+        datetime created_at
+        boolean is_active
+    }
+    
+    USER_INTERESTS {
+        int interest_id PK
+        int user_id FK
+        string interest_name
+        string interest_description
+        string interest_category
+        string skill_level
+        datetime created_at
+    }
+    
+    MATCHES {
+        int match_id PK
+        int user1_id FK
+        int user2_id FK
+        float match_percentage
+        datetime match_date
+        string status
+        boolean both_interested
+        int conversation_limit
+        datetime expires_at
+    }
+    
+    CONVERSATIONS {
+        int conversation_id PK
+        int match_id FK
+        datetime started_at
+        int time_limit_days
+        string status
+        boolean user1_continue
+        boolean user2_continue
+        datetime ended_at
+    }
+    
+    MESSAGES {
+        int message_id PK
+        int conversation_id FK
+        int sender_id FK
+        text message_text
+        datetime sent_at
+        datetime read_at
+    }
+    
+    PRODUCTS {
+        int product_id PK
+        string product_name
+        text description
+        decimal price
+        string category
+        string image_url
+        boolean is_active
+    }
+    
+    GIFT_SUGGESTIONS {
+        int suggestion_id PK
+        int match_id FK
+        int product_id FK
+        int suggested_by FK
+        datetime suggested_at
+        boolean purchased
+        datetime purchase_date
+    }
+    
+    RELATIONSHIP_REQUESTS {
+        int request_id PK
+        int match_id FK
+        int requester_id FK
+        string request_type
+        string status
+        datetime requested_at
+        datetime responded_at
+    }
+    
+    USERS ||--o{ USER_INTERESTS : "has"
+    USERS ||--o{ MATCHES : "user1"
+    USERS ||--o{ MATCHES : "user2"
+    MATCHES ||--|| CONVERSATIONS : "creates"
+    CONVERSATIONS ||--o{ MESSAGES : "contains"
+    USERS ||--o{ MESSAGES : "sends"
+    MATCHES ||--o{ GIFT_SUGGESTIONS : "receives"
+    PRODUCTS ||--o{ GIFT_SUGGESTIONS : "featured_in"
+    MATCHES ||--o{ RELATIONSHIP_REQUESTS : "involves"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "requests"
+    USERS ||--o{ GIFT_SUGGESTIONS : "suggests"
