@@ -1,727 +1,584 @@
-<!DOCTYPE html>
-<html lang="lo">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ LoveSync - ຫາຄູ່ຮັກ</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<div class="decision-subtitle">ເຈົ້າຮູ້ສຶກວ່າແນວໃດ? ຕ້ອງການສືບຕໍ່ສົນທະນາໄປອີກ 7 ວັນບໍ?</div>
+                        <div class="decision-buttons">
+                            <button class="decision-btn btn-continue" onclick="makeDecision('continue')">
+                                <i class="fas fa-heart"></i>
+                                ສືບຕໍ່ 7 ວັນ
+                            </button>
+                            <button class="decision-btn btn-stop" onclick="makeDecision('stop')">
+                                <i class="fas fa-handshake-slash"></i>
+                                ຢຸດທີ່ນີ່
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --tertiary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --shadow-color: rgba(31, 38, 135, 0.37);
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-            --text-light: #718096;
-        }
+                <!-- Other Matches -->
+                <div class="glass-card">
+                    <h3 style="color: white; margin-bottom: 20px; display: flex; align-items: center;">
+                        <i class="fas fa-users" style="margin-right: 12px;"></i>
+                        💕 Matches ອື່ນໆ
+                    </h3>
+                    <div style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px;">
+                        <div style="min-width: 90px; text-align: center; cursor: pointer; transition: all 0.3s ease;" 
+                             onmouseover="this.style.transform='scale(1.05)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                            <div class="avatar" style="width: 70px; height: 70px; margin: 0 auto 10px; background: var(--secondary);">👩‍🎨</div>
+                            <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600;">ນາງ ສີດາ</div>
+                            <div style="color: var(--text-muted); font-size: 11px;">2 ວັນ</div>
+                        </div>
+                        <div style="min-width: 90px; text-align: center; cursor: pointer; transition: all 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                            <div class="avatar" style="width: 70px; height: 70px; margin: 0 auto 10px; background: var(--success);">👨‍🏫</div>
+                            <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600;">ທ້າວ ສົມໃຈ</div>
+                            <div style="color: var(--text-muted); font-size: 11px;">5 ວັນ</div>
+                        </div>
+                        <div style="min-width: 90px; text-align: center; cursor: pointer; transition: all 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                            <div class="avatar" style="width: 70px; height: 70px; margin: 0 auto 10px; background: var(--warning);">👩‍⚕️</div>
+                            <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600;">ນາງ ວັນນາ</div>
+                            <div style="color: var(--text-muted); font-size: 11px;">1 ອາທິດ</div>
+                        </div>
+                        <div style="min-width: 90px; text-align: center; cursor: pointer; transition: all 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                            <div class="avatar" style="width: 70px; height: 70px; margin: 0 auto 10px; background: var(--accent);">👨‍💻</div>
+                            <div style="color: var(--text-secondary); font-size: 13px; font-weight: 600;">ທ້າວ ວິໄລ</div>
+                            <div style="color: var(--text-muted); font-size: 11px;">3 ອາທິດ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-gradient);
-            min-height: 100vh;
-            color: var(--text-primary);
-            overflow-x: hidden;
-        }
+            <!-- Profile Section -->
+            <div id="profile" class="content-section">
+                <div class="profile-hero">
+                    <div class="profile-avatar">
+                        👨‍💻
+                        <div class="edit-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="profile-name">ທ້າວ ຈັນທະ</div>
+                    <div class="profile-tagline">27 ປີ • Senior Developer • ວຽງຈັນ</div>
+                </div>
 
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(120, 200, 255, 0.3) 0%, transparent 50%);
-            animation: backgroundShift 20s ease-in-out infinite;
-            z-index: -1;
-        }
+                <div class="glass-card">
+                    <h3 style="color: white; margin-bottom: 24px; display: flex; align-items: center;">
+                        <i class="fas fa-user" style="margin-right: 12px;"></i>
+                        ຂໍ້ມູນສ່ວນຕົວ
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">ກ່ຽວກັບຂ້ອຍ</label>
+                        <textarea class="form-input" rows="4" placeholder="ແນະນຳຕົວເອງ...">ມັກສ້າງແອັບ ແລະ ເວັບໄຊທ໌ໃໝ່ໆ ຊອກຫາຄົນທີ່ມີຄວາມຝັນ ແລະ ເປົ້າໝາຍຄືກັນ ຮັກການຮຽນຮູ້ເທັກໂນໂລຢີໃໝ່ ແລະ ແບ່ງປັນຄວາມຮູ້ ມັກການເດີນທາງ ແລະ ຄົ້ນພົບສິ່ງໃໝ່</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ອາຊີບ</label>
+                        <input type="text" class="form-input" value="Senior Software Developer">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ບໍລິສັດ</label>
+                        <input type="text" class="form-input" value="Tech Innovation Laos Co.">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ການສຶກສາ</label>
+                        <input type="text" class="form-input" value="ປະລິນຍາໂທ ວິສະວະກຳຄອມພິວເຕີ">
+                    </div>
+                </div>
 
-        @keyframes backgroundShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
+                <div class="glass-card">
+                    <h3 style="color: white; margin-bottom: 24px; display: flex; align-items: center;">
+                        <i class="fas fa-heart" style="margin-right: 12px;"></i>
+                        ຄວາມສົນໃຈ & ງານອະດິເລກ
+                    </h3>
+                    <div class="interests">
+                        <span class="interest-tag">Programming <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">AI/ML <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">ດົນຕີ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">ທ່ອງທ່ຽວ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">ກາເຟ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">Photography <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">Gaming <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                        <span class="interest-tag">ອ່ານປື້ມ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; opacity: 0.7;"></i></span>
+                    </div>
+                    <button class="action-btn" style="width: 100%; margin-top: 24px; background: rgba(255,255,255,0.1); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.2);">
+                        <i class="fas fa-plus"></i> ເພີ່ມຄວາມສົນໃຈ
+                    </button>
+                </div>
 
-        .app-container {
-            max-width: 430px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            min-height: 100vh;
-            position: relative;
-            box-shadow: 0 8px 32px var(--shadow-color);
-        }
+                <div class="glass-card">
+                    <h3 style="color: white; margin-bottom: 24px; display: flex; align-items: center;">
+                        <i class="fas fa-search-heart" style="margin-right: 12px;"></i>
+                        ຄວາມຕ້ອງການ & ເງື່ອນໄຂ
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">ຊອກຫາ</label>
+                        <select class="form-input">
+                            <option>ຍິງ</option>
+                            <option>ຊາຍ</option>
+                            <option>ທັງສອງ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ຊ່ວງອາຍຸ</label>
+                        <div style="display: flex; gap: 16px;">
+                            <input type="number" class="form-input" value="23" placeholder="ຕ່ຳສຸດ">
+                            <input type="number" class="form-input" value="33" placeholder="ສູງສຸດ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ໄລຍະທາງສູງສຸດ: <strong>20 km</strong></label>
+                        <input type="range" min="1" max="100" value="20" style="width: 100%; margin: 12px 0; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; outline: none;">
+                    </div>
+                </div>
 
-        /* Glassmorphism Header */
-        .header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 60px 24px 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+                <div class="glass-card">
+                    <h3 style="color: white; margin-bottom: 24px; display: flex; align-items: center;">
+                        <i class="fas fa-images" style="margin-right: 12px;"></i>
+                        ຮູບໂປຣໄຟລ໌ (4/10)
+                    </h3>
+                    <div class="photo-grid">
+                        <div class="photo-slot" style="background: var(--accent);">👨‍💻</div>
+                        <div class="photo-slot" style="background: var(--secondary);">📷</div>
+                        <div class="photo-slot" style="background: var(--success);">☕</div>
+                        <div class="photo-slot" style="background: var(--warning);">🎸</div>
+                        <div class="photo-slot empty">
+                            <i class="fas fa-plus" style="font-size: 24px; opacity: 0.6;"></i>
+                        </div>
+                        <div class="photo-slot empty">
+                            <i class="fas fa-plus" style="font-size: 24px; opacity: 0.6;"></i>
+                        </div>
+                        <div class="photo-slot empty">
+                            <i class="fas fa-plus" style="font-size: 24px; opacity: 0.6;"></i>
+                        </div>
+                        <div class="photo-slot empty">
+                            <i class="fas fa-plus" style="font-size: 24px; opacity: 0.6;"></i>
+                        </div>
+                        <div class="photo-slot empty">
+                            <i class="fas fa-plus" style="font-size: 24px; opacity: 0.6;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: rotate 20s linear infinite;
-        }
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="showSection('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showSection('discover')">
+                <i class="fas fa-heart"></i>
+                <span>Discover</span>
+            </div>
+            <div class="nav-item" onclick="showSection('chat')">
+                <i class="fas fa-comments"></i>
+                <span>Matches</span>
+            </div>
+            <div class="nav-item" onclick="showSection('profile')">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo {
-            font-size: 42px;
-            font-weight: 700;
-            background: var(--secondary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .tagline {
-            color: rgba(255,255,255,0.9);
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        .notification-bubble {
-            position: absolute;
-            top: 80px;
-            right: 24px;
-            width: 48px;
-            height: 48px;
-            background: var(--warning-gradient);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 24px rgba(250, 112, 154, 0.4);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .notification-bubble:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 32px rgba(250, 112, 154, 0.6);
-        }
-
-        /* Modern Navigation */
-        .nav-container {
-            padding: 0 24px;
-            margin-bottom: 24px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 6px;
-            gap: 4px;
-        }
-
-        .nav-tab {
-            flex: 1;
-            padding: 16px 12px;
-            text-align: center;
-            background: transparent;
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--secondary-gradient);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 16px;
-        }
-
-        .nav-tab.active {
-            color: white;
-            transform: scale(1.02);
-        }
-
-        .nav-tab.active::before {
-            opacity: 1;
-        }
-
-        .nav-tab i,
-        .nav-tab span {
-            position: relative;
-            z-index: 2;
-        }
-
-        .nav-tab i {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        /* Content Container */
-        .content {
-            padding: 0 24px 120px;
-            min-height: 400px;
-        }
-
-        .content-section {
-            display: none;
-            animation: fadeInUp 0.5s ease-out;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+    <script>
+        // Create floating particles
+        function createParticles() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 20000);
+                }, i * 4000);
             }
         }
 
-        /* Glassmorphism Cards */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px var(--shadow-color);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--secondary-gradient);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 48px var(--shadow-color);
-        }
-
-        /* Match Cards */
-        .match-card {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .match-percentage {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: var(--success-gradient);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 4px 16px rgba(67, 233, 123, 0.4);
-        }
-
-        .user-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .avatar-container {
-            position: relative;
-            margin-right: 16px;
-        }
-
-        .avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: var(--tertiary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            box-shadow: 0 8px 24px rgba(79, 172, 254, 0.4);
-        }
-
-        .online-indicator {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 16px;
-            height: 16px;
-            background: #00ff88;
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,255,136,0.4);
-        }
-
-        .user-info h3 {
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .user-details {
-            color: rgba(255,255,255,0.8);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .interests-container {
-            margin: 20px 0;
-        }
-
-        .interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .interest-tag {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .bio-text {
-            color: rgba(255,255,255,0.9);
-            line-height: 1.6;
-            margin: 16px 0;
-            font-size: 15px;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transition: all 0.6s;
-            transform: translate(-50%, -50%);
-        }
-
-        .action-btn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-pass {
-            background: rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.8);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .btn-pass:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.02);
-        }
-
-        .btn-like {
-            background: var(--secondary-gradient);
-            color: white;
-            box-shadow: 0 8px 24px rgba(240, 147, 251, 0.4);
-        }
-
-        .btn-like:hover {
-            transform: scale(1.02);
-            box-shadow: 0 12px 32px rgba(240, 147, 251, 0.6);
-        }
-
-        /* Chat Interface */
-        .chat-header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px 20px 0 0;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-user-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .chat-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
-            background: var(--tertiary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            margin-right: 12px;
-        }
-
-        .chat-user-details h4 {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .status-text {
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-        }
-
-        .timer-display {
-            background: var(--warning-gradient);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 14px;
-            text-align: center;
-            min-width: 140px;
-            box-shadow: 0 4px 16px rgba(250, 112, 154, 0.4);
-            animation: timerPulse 2s infinite;
-        }
-
-        @keyframes timerPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .chat-messages {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-top: none;
-            border-radius: 0 0 20px 20px;
-            padding: 24px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .message {
-            margin-bottom: 20px;
-            animation: messageSlide 0.3s ease-out;
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        // Enhanced Section Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            
+            document.querySelector(`.nav-tab[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+            document.querySelector(`.nav-item[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
             }
         }
 
-        .message.sent {
-            text-align: right;
+        // Enhanced Like Animation
+        function likePost(element) {
+            const likeCountSpan = element.parentElement.querySelector('.like-count');
+            const currentCount = parseInt(likeCountSpan.textContent);
+            
+            if (element.style.color === 'rgb(255, 107, 157)') {
+                element.style.color = 'rgba(255,255,255,0.6)';
+                likeCountSpan.textContent = currentCount - 1;
+            } else {
+                element.style.color = '#ff6b9d';
+                likeCountSpan.textContent = currentCount + 1;
+                
+                createFloatingHeart(element);
+                
+                element.style.animation = 'heartBeat 0.6s ease-in-out';
+                setTimeout(() => {
+                    element.style.animation = '';
+                }, 600);
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
         }
 
-        .message-bubble {
-            display: inline-block;
-            max-width: 75%;
-            padding: 16px 20px;
-            border-radius: 24px;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
+        // Enhanced Match Like
+        function likeMatch(button) {
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ກຳລັງສົ່ງ...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                const successAnimation = document.createElement('div');
+                successAnimation.className = 'success-animation';
+                successAnimation.innerHTML = '💖';
+                document.body.appendChild(successAnimation);
+                
+                setTimeout(() => {
+                    successAnimation.remove();
+                }, 1500);
+                
+                button.innerHTML = '<i class="fas fa-check"></i> ສົ່ງແລ້ວ';
+                button.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    showMatchNotification();
+                }, 1500);
+            }, 2000);
         }
 
-        .message.received .message-bubble {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-bottom-left-radius: 8px;
+        // Match Notification
+        function showMatchNotification() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--glass);
+                backdrop-filter: blur(25px);
+                border: 1px solid var(--glass-border);
+                border-radius: 28px;
+                padding: 36px;
+                text-align: center;
+                color: white;
+                z-index: 1000;
+                max-width: 320px;
+                width: 90%;
+                animation: modalPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                box-shadow: 0 25px 80px var(--shadow);
+            `;
+            
+            notification.innerHTML = `
+                <div style="font-size: 72px; margin-bottom: 20px; animation: iconFloat 2s ease-in-out infinite;">🎉</div>
+                <h3 style="margin-bottom: 12px; font-size: 28px; font-weight: 800;">It's a Match!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 28px; line-height: 1.5;">ທ່ານກັບ ນາງ ພອນສະຫວັນ ມັກກັນເຊິ່ງກັນ! ເລີ່ມສົນທະນາກັນເລີຍ</p>
+                <button onclick="this.parentElement.remove(); showSection('chat');" style="
+                    background: var(--secondary);
+                    color: white;
+                    border: none;
+                    padding: 18px 36px;
+                    border-radius: 22px;
+                    font-weight: 700;
+                    font-size: 16px;
+                    cursor: pointer;
+                    width: 100%;
+                    transition: all 0.3s ease;
+                ">เลີ่ມสົນທະນາ 💬</button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 6000);
         }
 
-        .message.sent .message-bubble {
-            background: var(--secondary-gradient);
-            color: white;
-            border-bottom-right-radius: 8px;
-            box-shadow: 0 4px 16px rgba(240, 147, 251, 0.3);
+        // Pass Match
+        function passMatch() {
+            const matchCard = event.target.closest('.match-card');
+            matchCard.style.transform = 'translateX(-100%) rotate(-10deg)';
+            matchCard.style.opacity = '0';
+            
+            setTimeout(() => {
+                matchCard.remove();
+            }, 400);
         }
 
-        .message-time {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 6px;
+        // Decision Making
+        function makeDecision(decision) {
+            const decisionCard = document.querySelector('.decision-card');
+            
+            if (decision === 'continue') {
+                decisionCard.innerHTML = `
+                    <div class="decision-content">
+                        <div class="loading-spinner" style="margin: 0 auto 24px;"></div>
+                        <div class="decision-title">ລໍຖ້າການຕອບ...</div>
+                        <div class="decision-subtitle">ກຳລັງເຊັກການຕັດສິນໃຈຂອງ ນາງ ມາລີ</div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    const partnerAgrees = Math.random() > 0.15; // 85% chance
+                    
+                    if (partnerAgrees) {
+                        decisionCard.innerHTML = `
+                            <div class="decision-content">
+                                <i class="fas fa-heart decision-icon" style="color: #43e97b;"></i>
+                                <div class="decision-title">🎉 ຍອດຫຼາຍ!</div>
+                                <div class="decision-subtitle">ທັງສອງຕ້ອງການສືບຕໍ່! ຕອນນີ້ມີເວລາ 7 ວັນເຕັມ</div>
+                                <div style="margin-top: 24px;">
+                                    <div class="timer-display">
+                                        <i class="fas fa-clock"></i>
+                                        <div>6 ວັນ 23:59:45</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        updateTimerDisplay('6 ວັນ 23:59:45');
+                    } else {
+                        decisionCard.innerHTML = `
+                            <div class="decision-content">
+                                <i class="fas fa-heart-broken decision-icon" style="color: #fa709a;"></i>
+                                <div class="decision-title">💔 ເສຍໃຈ...</div>
+                                <div class="decision-subtitle">ນາງ ມາລີ ເລືອກຢຸດການສົນທະນາ. ແຕ່ຍັງມີຄົນອື່ນອີກຫຼາຍ!</div>
+                                <button class="decision-btn btn-continue" onclick="showSection('discover')" style="width: 100%; margin-top: 24px;">
+                                    <i class="fas fa-heart"></i>
+                                    ຫາຄູ່ໃໝ່
+                                </button>
+                            </div>
+                        `;
+                    }
+                }, 3500);
+            } else {
+                decisionCard.innerHTML = `
+                    <div class="decision-content">
+                        <i class="fas fa-wave-square decision-icon" style="color: #4facfe;"></i>
+                        <div class="decision-title">👋 ລາກ່ອນ</div>
+                        <div class="decision-subtitle">ເຈົ້າເລືອກຢຸດການສົນທະນາ. ຂໍໂຊກດີໃນການຫາຄູ່ຄັ້ງຕໍ່ໄປ!</div>
+                        <button class="decision-btn btn-continue" onclick="showSection('discover')" style="width: 100%; margin-top: 24px;">
+                            <i class="fas fa-heart"></i>
+                            ຫາຄູ່ໃໝ່
+                        </button>
+                    </div>
+                `;
+            }
         }
 
-        /* Decision Interface */
-        .decision-card {
-            background: var(--warning-gradient);
-            border-radius: 24px;
-            padding: 32px 24px;
-            text-align: center;
-            color: white;
-            margin: 24px 0;
-            box-shadow: 0 12px 40px rgba(250, 112, 154, 0.4);
-            position: relative;
-            overflow: hidden;
+        // Update Timer
+        function updateTimerDisplay(newTime) {
+            const timerDisplays = document.querySelectorAll('.timer-display');
+            timerDisplays.forEach(timer => {
+                timer.innerHTML = `
+                    <i class="fas fa-hourglass-half"></i>
+                    <div>${newTime}</div>
+                `;
+            });
         }
 
-        .decision-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shimmer 3s ease-in-out infinite;
+        // Create Floating Heart
+        function createFloatingHeart(element) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.cssText = `
+                position: fixed;
+                font-size: 28px;
+                pointer-events: none;
+                z-index: 1000;
+                animation: heartFloat 2.5s ease-out forwards;
+            `;
+            
+            const rect = element.getBoundingClientRect();
+            heart.style.left = rect.left + 'px';
+            heart.style.top = rect.top + 'px';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 2500);
         }
 
-        @keyframes shimmer {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-        }
-
-        .decision-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .decision-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .decision-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .decision-subtitle {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-bottom: 24px;
-        }
-
-        .decision-buttons {
-            display: flex;
-            gap: 16px;
-        }
-
-        .decision-btn {
-            flex: 1;
-            padding: 18px 24px;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-continue {
-            background: var(--success-gradient);
-            color: white;
-            box-shadow: 0 8px 24px rgba(67, 233, 123, 0.4);
-        }
-
-        .btn-stop {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .decision-btn:hover {
-            transform: translateY(-4px);
-        }
-
-        .btn-continue:hover {
-            box-shadow: 0 12px 32px rgba(67, 233, 123, 0.6);
-        }
-
-        /* Profile Section */
-        .profile-hero {
-            text-align: center;
-            margin-bottom: 32px;
-            position: relative;
-        }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 32px;
-            background: var(--tertiary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            color: white;
-            margin: 0 auto 20px;
-            position: relative;
-            box-shadow: 0 16px 48px rgba(79, 172, 254, 0.4);
-        }
-
-        .edit-overlay {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 36px;
-            height: 36px;
-            background: var(--secondary-gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 16px rgba(240, 147, 251, 0.4);
-        }
-
-        .edit-overlay:hover {
-            transform: scale(1.1);
+        // Enhanced Notifications
+        function showNotifications() {
+            const notifications = [
+                {
+                    icon: '💖',
+                    title: 'New Match!',
+                    message: 'ທ້າວ ວິໄລ ມັກໂປຣໄຟລ໌ຂອງເຈົ້າ',
+                    time: '3 ນາທີ'
+                },
+                {
+                    icon: '⏰',
+                    title: 'Time Alert',
+                    message: 'ການສົນທະນາກັບ ນາງ ມາລີ ເຫຼືອ 8 ຊົ່ວໂມງ',
+                    time: '1 ຊົ່ວໂມງ'
+                },
+                {
+                    icon: '💬',
+                    title: 'New Message',
+                    message: 'ນາງ ສີດາ ສົ່ງຂໍ້ຄວາມໃໝ່',
+                    time: '45 ນາທີ'
+                },
+                {
+                    icon: '👀',
+                    title: 'Profile Views',
+                    message: '5 ຄົນເບິ່ງໂປຣໄຟລ໌ຂອງເຈົ້າມື້ນີ້',
+                    time: '2 ຊົ່ວໂມງ'
+                },
+                {
+                    icon: '✨',
+                    title: 'Profile Boost',
+                    message: 'ໂປຣໄຟລ໌ຂອງເຈົ້າໄດ້ຮັບການ boost ແລ້ວ!',
+                    time: '3 ຊົ່ວໂມງ'
+                },
+                {
+                    icon: '🎉',
+                    title: 'Achievement',
+                    message: 'ເຈົ້າໄດ້ຮັບ 10 likes ມື້ນີ້!',
+                    time: '5 ຊົ່ວໂມງ'
+                },
+                {
+                    icon: '📸',
+                    title: 'Photo Approved',
+                    message: 'ຮູບໃໝ່ຂອງເຈົ້າຜ່ານການອະນຸມັດແລ້ວ',
+                    time: '1 ວັນ'
+                }
+            ];
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.6);
+                backdrop-filter: blur(5px);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
+                animation: fadeIn 0.4s ease-out;
+            `;
+            
+            const notificationPanel = document.createElement('div');
+            notificationPanel.style.cssText = `
+                background: var(--glass);
+                backdrop-filter: blur(25px);
+                border: 1px solid var(--glass-border);
+                border-radius: 28px;
+                padding: 28px;
+                max-width: 420px;
+                width: 100%;
+                max-height: 85vh;
+                overflow-y: auto;
+                color: white;
+                box-shadow: 0 25px 80px var(--shadow);
+            `;
+            
+            let notificationHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+                    <h3 style="font-size: 28px; font-weight: 800;">🔔 Notifications</h3>
+                    <button onclick="this.closest('.modal').remove()" style="
+                        background: rgba(255,255,255,0.1);
+                        border: none;
+                        color: white;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.3s ease;
+                    ">✕</button>
+                </div>
+            `;
+            
+            notifications.forEach((notif, index) => {
+                notificationHTML += `
+                    <div style="
+                        background: rgba(255,255,255,0.1);
+                        border-radius: 18px;
+                        padding: 18px;
+                        margin-bottom: 14px;
+                        display: flex;
+                        align-items: center;
+                        gap: 18px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        animation: slideDown 0.6s ease-out ${index * 0.1}s both;
+                    " onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'" 
+                       onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 28px; flex-shrink: 0;">${notif.icon}</div>
+                        <div style="flex        .edit-overlay:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 8px 28px rgba(240, 147, 251, 0.7);
         }
 
         .profile-name {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: white;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .profile-tagline {
-            color: rgba(255,255,255,0.8);
+            color: var(--text-secondary);
             font-size: 16px;
+            font-weight: 500;
         }
 
-        /* Form Elements */
+        /* Enhanced Form Elements */
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .form-label {
             display: block;
-            color: rgba(255,255,255,0.9);
-            font-weight: 500;
-            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 10px;
             font-size: 14px;
         }
 
         .form-input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 18px 22px;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 16px;
+            border-radius: 18px;
             color: white;
             font-size: 15px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             resize: vertical;
         }
 
@@ -733,26 +590,27 @@
             outline: none;
             border-color: rgba(240, 147, 251, 0.6);
             box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+            background: rgba(255,255,255,0.15);
         }
 
-        /* Post Creator */
+        /* Enhanced Post Creator */
         .post-creator {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .post-input {
             width: 100%;
-            min-height: 120px;
+            min-height: 140px;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 22px;
+            padding: 22px;
             color: white;
             font-size: 15px;
             line-height: 1.6;
             resize: vertical;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .post-input::placeholder {
@@ -763,84 +621,88 @@
             outline: none;
             border-color: rgba(240, 147, 251, 0.6);
             box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+            background: rgba(255,255,255,0.15);
         }
 
         .post-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 16px;
+            margin-top: 18px;
         }
 
         .post-options {
             display: flex;
-            gap: 16px;
+            gap: 12px;
         }
 
         .post-option {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(255,255,255,0.8);
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .post-option:hover {
             background: rgba(255,255,255,0.2);
             color: white;
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         .post-btn {
-            background: var(--secondary-gradient);
+            background: var(--secondary);
             color: white;
             border: none;
-            padding: 12px 32px;
-            border-radius: 16px;
-            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 16px rgba(240, 147, 251, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
         }
 
         .post-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(240, 147, 251, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.6);
         }
 
-        /* Bottom Navigation */
+        /* Enhanced Bottom Navigation */
         .bottom-nav {
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            width: calc(430px - 40px);
-            max-width: calc(100vw - 40px);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            width: calc(430px - 48px);
+            max-width: calc(100vw - 48px);
+            background: var(--glass);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 12px 8px;
+            border-radius: 32px;
+            padding: 16px 12px;
             display: flex;
-            gap: 4px;
-            box-shadow: 0 12px 40px var(--shadow-color);
+            gap: 8px;
+            box-shadow: 
+                0 15px 50px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .nav-item {
             flex: 1;
-            padding: 16px 8px;
+            padding: 18px 12px;
             text-align: center;
-            border-radius: 20px;
+            border-radius: 22px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: rgba(255,255,255,0.6);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: var(--text-muted);
             position: relative;
             overflow: hidden;
         }
@@ -852,10 +714,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--secondary-gradient);
+            background: var(--secondary);
             opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 22px;
+            transform: scale(0.8);
         }
 
         .nav-item.active {
@@ -865,19 +728,20 @@
 
         .nav-item.active::before {
             opacity: 1;
+            transform: scale(1);
         }
 
         .nav-item i {
-            font-size: 20px;
+            font-size: 22px;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             position: relative;
             z-index: 2;
         }
 
         .nav-item span {
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 600;
             position: relative;
             z-index: 2;
         }
@@ -887,14 +751,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px;
+            height: 250px;
         }
 
         .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(255,255,255,0.2);
-            border-top: 3px solid white;
+            width: 52px;
+            height: 52px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top: 4px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -902,6 +766,86 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        /* Success Animations */
+        .success-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            z-index: 1000;
+            animation: successPop 1.5s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes successPop {
+            0% { 
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .photo-slot {
+            aspect-ratio: 1;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-slot:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-slot.empty {
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        .photo-slot.empty:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
         }
 
         /* Responsive Design */
@@ -912,15 +856,15 @@
             }
             
             .header {
-                padding: 60px 20px 20px;
+                padding: 60px 20px 28px;
             }
             
             .content {
-                padding: 0 20px 120px;
+                padding: 0 20px 140px;
             }
             
             .nav-container {
-                padding: 0 20px;
+                padding: 0 20px 24px;
             }
             
             .bottom-nav {
@@ -929,56 +873,67 @@
             }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* Heart Animation */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.4); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.4); }
+            70% { transform: scale(1); }
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(0px) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120px) scale(0.5);
+                opacity: 0;
+            }
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
+        /* Modal Animations */
+        @keyframes modalPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.5);
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
-        /* Success Animation */
-        .success-animation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 64px;
-            z-index: 1000;
-            animation: successPop 1s ease-out;
-            pointer-events: none;
-        }
-
-        @keyframes successPop {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        @keyframes slideDown {
+            0% {
+                transform: translate(-50%, -100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Glassmorphism Header -->
+        <!-- Header -->
         <div class="header">
-            <div class="notification-bubble" onclick="showNotifications()">5</div>
+            <div class="notification-bubble" onclick="showNotifications()">7</div>
             <div class="header-content">
-                <div class="logo">✨ LoveSync</div>
-                <div class="tagline">ຫາຄູ່ຮັກທີ່ແທ້ຈິງດ້ວຍ AI</div>
+                <div class="logo">💖 HeartSync</div>
+                <div class="tagline">ຫາຄູ່ຮັກທີ່ແທ້ຈິງດ້ວຍ AI ທັນສະໄໝ</div>
             </div>
         </div>
 
-        <!-- Modern Navigation -->
+        <!-- Navigation -->
         <div class="nav-container">
             <div class="nav-tabs">
                 <button class="nav-tab active" onclick="showSection('home')">
@@ -986,11 +941,11 @@
                     <span>Home</span>
                 </button>
                 <button class="nav-tab" onclick="showSection('discover')">
-                    <i class="fas fa-compass"></i>
+                    <i class="fas fa-heart"></i>
                     <span>Discover</span>
                 </button>
                 <button class="nav-tab" onclick="showSection('chat')">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-comments"></i>
                     <span>Matches</span>
                 </button>
                 <button class="nav-tab" onclick="showSection('profile')">
@@ -1000,7 +955,7 @@
             </div>
         </div>
 
-        <!-- Content Sections -->
+        <!-- Content -->
         <div class="content">
             <!-- Home Section -->
             <div id="home" class="content-section active">
@@ -1030,7 +985,7 @@
                 <div class="glass-card match-card">
                     <div class="user-header">
                         <div class="avatar-container">
-                            <div class="avatar">👩‍💻</div>
+                            <div class="avatar">👩‍🎨</div>
                             <div class="online-indicator"></div>
                         </div>
                         <div class="user-info">
@@ -1038,72 +993,82 @@
                             <div class="user-details">
                                 <div class="detail-item">
                                     <i class="fas fa-clock"></i>
-                                    <span>2 ຊົ່ວໂມງ</span>
+                                    <span>3 ຊົ່ວໂມງ</span>
                                 </div>
                                 <div class="detail-item">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <span>ວຽງຈັນ</span>
                                 </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Artist</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="bio-text">
-                        ມື້ນີ້ໄປຮຽນ Yoga ແລ້ວ ຮູ້ສຶກສົດຊື່ນຫຼາຍ! ໃຜມັກອອກກຳລັງກາຍແບບນີ້ບໍ? 🧘‍♀️✨
+                        ມື້ນີ້ໄປຮຽນ Yoga ແລ້ວ ຮູ້ສຶກສົດຊື່ນຫຼາຍ! ມັກການເຄື່ອນໄຫວຮ່າງກາຍ ແລະ ການຫາຄວາມສົມດູນໃນຊີວິດ ໃຜມັກ lifestyle ແບບນີ້ບໍ? 🧘‍♀️✨
                     </div>
                     <div class="interests-container">
                         <div class="interests">
                             <span class="interest-tag">Yoga</span>
+                            <span class="interest-tag">Art</span>
                             <span class="interest-tag">ສຸຂະພາບ</span>
                             <span class="interest-tag">ທຳມະຊາດ</span>
                         </div>
                     </div>
-                    <div style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.8);">
-                        <i class="fas fa-heart" style="color: #ff6b9d; margin-right: 8px; cursor: pointer;" onclick="likePost(this)"></i>
-                        <span class="like-count">24</span> ຄົນມັກ
-                        <i class="fas fa-comment" style="margin-left: 20px; margin-right: 8px;"></i>
-                        <span>6 ຄອມເມັນ</span>
-                        <i class="fas fa-share" style="margin-left: 20px; cursor: pointer;"></i>
+                    <div style="text-align: center; margin-top: 24px; color: var(--text-secondary);">
+                        <i class="fas fa-heart" style="color: #ff6b9d; margin-right: 8px; cursor: pointer; font-size: 18px;" onclick="likePost(this)"></i>
+                        <span class="like-count">28</span> ຄົນມັກ
+                        <i class="fas fa-comment" style="margin-left: 24px; margin-right: 8px; cursor: pointer;"></i>
+                        <span>8 ຄອມເມັນ</span>
+                        <i class="fas fa-share" style="margin-left: 24px; cursor: pointer;"></i>
                     </div>
                 </div>
 
                 <div class="glass-card match-card">
                     <div class="user-header">
                         <div class="avatar-container">
-                            <div class="avatar">👨‍🎨</div>
+                            <div class="avatar">👨‍💼</div>
                             <div class="online-indicator"></div>
                         </div>
                         <div class="user-info">
-                            <h3>ທ້າວ ວິໄລ</h3>
+                            <h3>ທ້າວ ສົມຊາຍ</h3>
                             <div class="user-details">
                                 <div class="detail-item">
                                     <i class="fas fa-clock"></i>
-                                    <span>5 ຊົ່ວໂມງ</span>
+                                    <span>6 ຊົ່ວໂມງ</span>
                                 </div>
                                 <div class="detail-item">
                                     <i class="fas fa-briefcase"></i>
-                                    <span>Designer</span>
+                                    <span>Business</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-music"></i>
+                                    <span>Music</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="bio-text">
-                        ແບ່ງປັນໃຫ້ຟັງເພງໃໝ່ທີ່ຖືກໃຈ 🎵 ເໝາະກັບການເຮັດວຽກ ແລະ ຜ່ອນຄາຍ
+                        ແບ່ງປັນເພງທີ່ຖືກໃຈໃນຊ່ວງນີ້ 🎵 ເໝາະກັບການເຮັດວຽກ ແລະ ຜ່ອນຄາຍ. ມັກຟັງດົນຕີຫຼາກຫຼາຍປະເພດ
                         <br><br>
-                        🔗 <span style="color: #4facfe; text-decoration: underline;">open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC</span>
+                        🔗 <span style="color: #4facfe; text-decoration: underline; cursor: pointer;">open.spotify.com/track/heartfelt-melody</span>
                     </div>
                     <div class="interests-container">
                         <div class="interests">
                             <span class="interest-tag">ດົນຕີ</span>
-                            <span class="interest-tag">Design</span>
+                            <span class="interest-tag">ທຸລະກິດ</span>
                             <span class="interest-tag">ກາເຟ</span>
+                            <span class="interest-tag">ທ່ອງທ່ຽວ</span>
                         </div>
                     </div>
-                    <div style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.8);">
-                        <i class="fas fa-heart" style="color: rgba(255,255,255,0.6); margin-right: 8px; cursor: pointer;" onclick="likePost(this)"></i>
-                        <span class="like-count">18</span> ຄົນມັກ
-                        <i class="fas fa-comment" style="margin-left: 20px; margin-right: 8px;"></i>
-                        <span>3 ຄອມເມັນ</span>
-                        <i class="fas fa-share" style="margin-left: 20px; cursor: pointer;"></i>
+                    <div style="text-align: center; margin-top: 24px; color: var(--text-secondary);">
+                        <i class="fas fa-heart" style="color: rgba(255,255,255,0.6); margin-right: 8px; cursor: pointer; font-size: 18px;" onclick="likePost(this)"></i>
+                        <span class="like-count">22</span> ຄົນມັກ
+                        <i class="fas fa-comment" style="margin-left: 24px; margin-right: 8px; cursor: pointer;"></i>
+                        <span>5 ຄອມເມັນ</span>
+                        <i class="fas fa-share" style="margin-left: 24px; cursor: pointer;"></i>
                     </div>
                 </div>
             </div>
@@ -1111,7 +1076,7 @@
             <!-- Discover Section -->
             <div id="discover" class="content-section">
                 <div class="glass-card match-card">
-                    <div class="match-percentage">97%</div>
+                    <div class="match-percentage">98%</div>
                     <div class="user-header">
                         <div class="avatar-container">
                             <div class="avatar">👩‍🔬</div>
@@ -1126,25 +1091,26 @@
                                 </div>
                                 <div class="detail-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>2.5km</span>
+                                    <span>2.1km</span>
                                 </div>
                                 <div class="detail-item">
-                                    <i class="fas fa-briefcase"></i>
-                                    <span>Scientist</span>
+                                    <i class="fas fa-microscope"></i>
+                                    <span>Researcher</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="bio-text">
-                        ມັກການຄົ້ນຄວ້າ ແລະ ຄິດຄົ້ນສິ່ງໃໝ່ໆ ສົນໃຈເທັກໂນໂລຢີ AI ແລະ ວິທະຍາສາດ ຊອກຫາຄົນທີ່ມີຄວາມຝັນ ແລະ ເປົ້າໝາຍຄືກັນ 🧬✨
+                        ມັກການຄົ້ນຄວ້າ ແລະ ຄິດຄົ້ນສິ່ງໃໝ່ໆ ສົນໃຈເທັກໂນໂລຢີ AI ແລະ ວິທະຍາສາດ ຊອກຫາຄົນທີ່ມີຄວາມຝັນ ແລະ ເປົ້າໝາຍຄືກັນ ມັກການອ່ານ ແລະ ຮຽນຮູ້ສິ່ງໃໝ່ສະເໝີ 🧬✨
                     </div>
                     <div class="interests-container">
                         <div class="interests">
                             <span class="interest-tag">ວິທະຍາສາດ</span>
-                            <span class="interest-tag">AI</span>
+                            <span class="interest-tag">AI/ML</span>
                             <span class="interest-tag">ອ່ານປື້ມ</span>
                             <span class="interest-tag">ທ່ອງທ່ຽວ</span>
                             <span class="interest-tag">Photography</span>
+                            <span class="interest-tag">ກາເຟ</span>
                         </div>
                     </div>
                     <div class="action-buttons">
@@ -1158,32 +1124,32 @@
                 </div>
 
                 <div class="glass-card match-card">
-                    <div class="match-percentage">89%</div>
+                    <div class="match-percentage">92%</div>
                     <div class="user-header">
                         <div class="avatar-container">
                             <div class="avatar">👨‍🍳</div>
                             <div class="online-indicator"></div>
                         </div>
                         <div class="user-info">
-                            <h3>ທ້າວ ສົມຊາຍ</h3>
+                            <h3>ທ້າວ ບຸນມີ</h3>
                             <div class="user-details">
                                 <div class="detail-item">
                                     <i class="fas fa-birthday-cake"></i>
-                                    <span>29 ປີ</span>
+                                    <span>30 ປີ</span>
                                 </div>
                                 <div class="detail-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>1.8km</span>
+                                    <span>3.5km</span>
                                 </div>
                                 <div class="detail-item">
-                                    <i class="fas fa-briefcase"></i>
+                                    <i class="fas fa-utensils"></i>
                                     <span>Chef</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="bio-text">
-                        ຮັກການເຮັດອາຫານ ແລະ ສ້າງສັນບາດໃໝ່ໆ ມັກທຳມະຊາດ ແລະ ວັດທະນະທຳລາວດັ້ງເດີມ ອຍາກຫາຄົນທີ່ຮູ້ຈັກຮັກສາ ແລະ ແບ່ງປັນຄວາມສຸກ 🍲❤️
+                        ຮັກການເຮັດອາຫານ ແລະ ສ້າງເມນູໃໝ່ໆ ມັກວັດທະນະທຳລາວ ແລະ ອາຫານພື້ນບ້ານ ອຍາກຫາຄົນທີ່ຮູ້ຈັກແບ່ງປັນຄວາມສຸກໃນການກິນ ແລະ ຮັກສາປະເພນີ 🍲❤️
                     </div>
                     <div class="interests-container">
                         <div class="interests">
@@ -1191,6 +1157,7 @@
                             <span class="interest-tag">ວັດທະນະທຳ</span>
                             <span class="interest-tag">ທຳມະຊາດ</span>
                             <span class="interest-tag">ດົນຕີ</span>
+                            <span class="interest-tag">ຄອບຄົວ</span>
                         </div>
                     </div>
                     <div class="action-buttons">
@@ -1204,7 +1171,7 @@
                 </div>
             </div>
 
-            <!-- Chat/Matches Section -->
+            <!-- Chat Section -->
             <div id="chat" class="content-section">
                 <!-- Active Chat -->
                 <div class="glass-card">
@@ -1213,12 +1180,19 @@
                             <div class="chat-avatar">👩‍💼</div>
                             <div class="chat-user-details">
                                 <h4>ນາງ ມາລີ</h4>
-                                <div class="status-text">ກຳລັງພິມ...</div>
+                                <div class="status-text">
+                                    ກຳລັງພິມ
+                                    <div class="typing-dots">
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="timer-display">
                             <i class="fas fa-hourglass-half"></i>
-                            <div>1 ວັນ 14:23:15</div>
+                            <div>1 ວັນ 08:14:32</div>
                         </div>
                     </div>
                     
@@ -1228,20 +1202,24 @@
                             <div class="message-time">10:30 AM</div>
                         </div>
                         <div class="message sent">
-                            <div class="message-bubble">ສະບາຍດີຄັບ! ຂ້ອຍກໍດີໃຈຄືກັນ</div>
+                            <div class="message-bubble">ສະບາຍດີຄັບ! ຂ້ອຍກໍດີໃຈຄືກັນ ເຮົາມີຄວາມເຂົ້າກັນໄດ້ສູງຫຼາຍ</div>
                             <div class="message-time">10:32 AM</div>
                         </div>
                         <div class="message received">
-                            <div class="message-bubble">ເຈົ້າມັກເຮັດຫຍັງໃນເວລາວ່າງ? ຂ້ອຍເບິ່ງໂປຣໄຟລ໌ແລ້ວເຈົ້າມັກ programming ນໍ?</div>
+                            <div class="message-bubble">ແມ່ນແລ້ວ! ເຈົ້າມັກເຮັດຫຍັງໃນເວລາວ່າງ? ຂ້ອຍເບິ່ງໂປຣໄຟລ໌ແລ້ວເຈົ້າມັກ programming ນໍ?</div>
                             <div class="message-time">10:35 AM</div>
                         </div>
                         <div class="message sent">
-                            <div class="message-bubble">ແມ່ນແລ້ວ! ຂ້ອຍເປັນ developer ມັກສ້າງ app ໃໝ່ໆ ແລ້ວເຈົ້າລະ?</div>
+                            <div class="message-bubble">ແມ່ນແລ້ວ! ຂ້ອຍເປັນ developer ມັກສ້າງ app ໃໝ່ໆ ແລ້ວເຈົ້າລະ? ເຮັດວຽກຫຍັງ?</div>
                             <div class="message-time">10:38 AM</div>
                         </div>
                         <div class="message received">
-                            <div class="message-bubble">ຂ້ອຍເຮັດວຽກ marketing ມັກການສ້າງສັນ ແລະ ການຕະຫຼາດດິຈິຕອນ!</div>
-                            <div class="message-time">10:40 AM</div>
+                            <div class="message-bubble">ຂ້ອຍເຮັດວຽກ digital marketing ມັກການສ້າງສັນ ແລະ ການຕະຫຼາດອອນລາຍ! ເຮົາຄົງເຮັດວຽກຄ້າຍຄືກັນ</div>
+                            <div class="message-time">10:42 AM</div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">ເອີ້ນ! ຫຍັງຫຼາຍ ອາດຈະມີໂອກາດເຮັດວຽກຮ່ວມກັນໄດ້ 😄</div>
+                            <div class="message-time">10:45 AM</div>
                         </div>
                     </div>
                 </div>
@@ -1249,273 +1227,850 @@
                 <!-- Decision Card -->
                 <div class="decision-card">
                     <div class="decision-content">
-                        <i class="fas fa-heart-broken decision-icon"></i>
+                        <i class="fas fa-heart-pulse decision-icon"></i>
                         <div class="decision-title">ເວລາໃກ້ໝົດແລ້ວ!</div>
-                        <div class="decision-subtitle">ເຈົ້າຕ້ອງການສືບຕໍ່ສົນທະນາໄປອີກ 7 ວັນບໍ?</div>
-                        <div class="decision-buttons">
-                            <button class="decision-btn btn-continue" onclick="makeDecision('continue')">
-                                <i class="fas fa-heart"></i>
-                                ສືບຕໍ່ 7 ວັນ
-                            </button>
-                            <button class="decision-btn btn-stop" onclick="makeDecision('stop')">
-                                <i class="fas fa-handshake-slash"></i>
-                                ຢຸດທີ່ນີ່
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                        <div class="decision-subtitle">ເຈົ້າຮູ້ສ<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 HeartSync - ຫາຄູ່ຮັກ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                <!-- Other Matches -->
-                <div class="glass-card">
-                    <h3 style="color: white; margin-bottom: 16px;">💕 Matches ຂອງເຈົ້າ</h3>
-                    <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;">
-                        <div style="min-width: 80px; text-align: center; cursor: pointer;">
-                            <div class="avatar" style="width: 60px; height: 60px; margin: 0 auto 8px;">👩‍🎨</div>
-                            <div style="color: rgba(255,255,255,0.9); font-size: 12px;">ນາງ ສີດາ</div>
-                        </div>
-                        <div style="min-width: 80px; text-align: center; cursor: pointer;">
-                            <div class="avatar" style="width: 60px; height: 60px; margin: 0 auto 8px;">👨‍🏫</div>
-                            <div style="color: rgba(255,255,255,0.9); font-size: 12px;">ທ້າວ ສົມໃຈ</div>
-                        </div>
-                        <div style="min-width: 80px; text-align: center; cursor: pointer;">
-                            <div class="avatar" style="width: 60px; height: 60px; margin: 0 auto 8px;">👩‍⚕️</div>
-                            <div style="color: rgba(255,255,255,0.9); font-size: 12px;">ນາງ ວັນນາ</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        :root {
+            --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --glass: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: rgba(31, 38, 135, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
 
-            <!-- Profile Section -->
-            <div id="profile" class="content-section">
-                <div class="profile-hero">
-                    <div class="profile-avatar">
-                        👨‍💻
-                        <div class="edit-overlay">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                    </div>
-                    <div class="profile-name">ທ້າວ ຈັນທະ</div>
-                    <div class="profile-tagline">27 ປີ • Software Developer • ວຽງຈັນ</div>
-                </div>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
 
-                <div class="glass-card">
-                    <h3 style="color: white; margin-bottom: 20px; display: flex; align-items: center;">
-                        <i class="fas fa-user" style="margin-right: 12px;"></i>
-                        ຂໍ້ມູນສ່ວນຕົວ
-                    </h3>
-                    <div class="form-group">
-                        <label class="form-label">ກ່ຽວກັບຂ້ອຍ</label>
-                        <textarea class="form-input" rows="4" placeholder="ແນະນຳຕົວເອງ...">ມັກສ້າງແອັບ ແລະ ເວັບໄຊທ໌ໃໝ່ໆ ຊອກຫາຄົນທີ່ມີຄວາມຝັນ ແລະ ເປົ້າໝາຍຄືກັນ ຮັກການຮຽນຮູ້ເທັກໂນໂລຢີໃໝ່ ແລະ ແບ່ງປັນຄວາມຮູ້</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ອາຊີບ</label>
-                        <input type="text" class="form-input" value="Senior Software Developer">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ບໍລິສັດ</label>
-                        <input type="text" class="form-input" value="Tech Innovation Laos">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ການສຶກສາ</label>
-                        <input type="text" class="form-input" value="ປະລິນຍາໂທ ວິສະວະກຳຄອມພິວເຕີ">
-                    </div>
-                </div>
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 200, 255, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 60% 30%, rgba(200, 120, 255, 0.3) 0%, transparent 50%);
+            animation: backgroundShift 15s ease-in-out infinite;
+            z-index: -1;
+        }
 
-                <div class="glass-card">
-                    <h3 style="color: white; margin-bottom: 20px; display: flex; align-items: center;">
-                        <i class="fas fa-heart" style="margin-right: 12px;"></i>
-                        ຄວາມສົນໃຈ
-                    </h3>
-                    <div class="interests">
-                        <span class="interest-tag">Programming <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                        <span class="interest-tag">AI/ML <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                        <span class="interest-tag">ດົນຕີ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                        <span class="interest-tag">ທ່ອງທ່ຽວ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                        <span class="interest-tag">ກາເຟ <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                        <span class="interest-tag">Photography <i class="fas fa-times" style="margin-left: 8px; cursor: pointer;"></i></span>
-                    </div>
-                    <button class="action-btn" style="width: 100%; margin-top: 20px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);">
-                        <i class="fas fa-plus"></i> ເພີ່ມຄວາມສົນໃຈ
-                    </button>
-                </div>
-
-                <div class="glass-card">
-                    <h3 style="color: white; margin-bottom: 20px; display: flex; align-items: center;">
-                        <i class="fas fa-search-heart" style="margin-right: 12px;"></i>
-                        ຄວາມຕ້ອງການ
-                    </h3>
-                    <div class="form-group">
-                        <label class="form-label">ຊອກຫາ</label>
-                        <select class="form-input">
-                            <option>ຍິງ</option>
-                            <option>ຊາຍ</option>
-                            <option>ທັງສອງ</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ຊ່ວງອາຍຸ</label>
-                        <div style="display: flex; gap: 16px;">
-                            <input type="number" class="form-input" value="24" placeholder="ຕ່ຳສຸດ">
-                            <input type="number" class="form-input" value="32" placeholder="ສູງສຸດ">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">ໄລຍະທາງສູງສຸດ (km)</label>
-                        <input type="range" min="1" max="100" value="15" style="width: 100%; margin: 8px 0;">
-                        <div style="color: rgba(255,255,255,0.8); font-size: 14px;">15 km</div>
-                    </div>
-                </div>
-
-                <div class="glass-card">
-                    <h3 style="color: white; margin-bottom: 20px; display: flex; align-items: center;">
-                        <i class="fas fa-images" style="margin-right: 12px;"></i>
-                        ຮູບໂປຣໄຟລ໌ (3/10)
-                    </h3>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                        <div style="aspect-ratio: 1; background: var(--tertiary-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">👨‍💻</div>
-                        <div style="aspect-ratio: 1; background: var(--secondary-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">📷</div>
-                        <div style="aspect-ratio: 1; background: var(--success-gradient); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">☕</div>
-                        <div style="aspect-ratio: 1; background: rgba(255,255,255,0.1); border: 2px dashed rgba(255,255,255,0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); cursor: pointer;">
-                            <i class="fas fa-plus" style="font-size: 20px;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Enhanced Bottom Navigation -->
-        <div class="bottom-nav">
-            <div class="nav-item active" onclick="showSection('home')">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </div>
-            <div class="nav-item" onclick="showSection('discover')">
-                <i class="fas fa-compass"></i>
-                <span>Discover</span>
-            </div>
-            <div class="nav-item" onclick="showSection('chat')">
-                <i class="fas fa-heart"></i>
-                <span>Matches</span>
-            </div>
-            <div class="nav-item" onclick="showSection('profile')">
-                <i class="fas fa-user-circle"></i>
-                <span>Profile</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Enhanced Section Navigation
-        function showSection(sectionName) {
-            // Hide all sections and remove active states
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionName).classList.add('active');
-            
-            // Activate corresponding navigation items
-            document.querySelector(`.nav-tab[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
-            document.querySelector(`.nav-item[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
-            
-            // Add haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
+        @keyframes backgroundShift {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scale(1.1) rotate(5deg);
             }
         }
 
-        // Enhanced Like Animation
-        function likePost(element) {
-            const likeCountSpan = element.parentElement.querySelector('.like-count');
-            const currentCount = parseInt(likeCountSpan.textContent);
-            
-            if (element.style.color === 'rgb(255, 107, 157)') {
-                // Unlike
-                element.style.color = 'rgba(255,255,255,0.6)';
-                likeCountSpan.textContent = currentCount - 1;
-            } else {
-                // Like
-                element.style.color = '#ff6b9d';
-                likeCountSpan.textContent = currentCount + 1;
-                
-                // Create floating heart animation
-                createFloatingHeart(element);
-                
-                // Add shake animation to button
-                element.style.animation = 'heartBeat 0.6s ease-in-out';
-                setTimeout(() => {
-                    element.style.animation = '';
-                }, 600);
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle::before {
+            content: '💫';
+            font-size: 12px;
+            opacity: 0.6;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
             }
-            
-            // Haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
             }
         }
 
-        // Enhanced Match Like with Success Animation
-        function likeMatch(button) {
-            // Add loading state
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังส่ง...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-        // Enhanced Section Navigation
-        function showSection(sectionName) {
-            // Hide all sections and remove active states
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionName).classList.add('active');
-            
-            // Activate corresponding navigation items
-            document.querySelector(`.nav-tab[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
-            document.querySelector(`.nav-item[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
-            
-            // Add haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 
+                0 8px 32px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header with Gradient Animation */
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 60px 24px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, 
+                transparent 0deg, 
+                rgba(240, 147, 251, 0.1) 60deg, 
+                transparent 120deg,
+                rgba(79, 172, 254, 0.1) 180deg,
+                transparent 240deg,
+                rgba(255, 119, 198, 0.1) 300deg,
+                transparent 360deg);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .notification-bubble {
+            position: absolute;
+            top: 80px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            background: var(--warning);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 
+                0 8px 24px rgba(250, 112, 154, 0.5),
+                0 0 0 0 rgba(250, 112, 154, 0.7);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 
+                    0 8px 24px rgba(250, 112, 154, 0.5),
+                    0 0 0 0 rgba(250, 112, 154, 0.7);
+            }
+            50% {
+                box-shadow: 
+                    0 12px 32px rgba(250, 112, 154, 0.7),
+                    0 0 0 10px rgba(250, 112, 154, 0);
+            }
+            100% {
+                box-shadow: 
+                    0 8px 24px rgba(250, 112, 154, 0.5),
+                    0 0 0 0 rgba(250, 112, 154, 0);
             }
         }
 
-        // Enhanced Like Animation
-        function likePost(element) {
-            const likeCountSpan = element.parentElement.querySelector('.like-count');
-            const currentCount = parseInt(likeCountSpan.textContent);
-            
-            if (element.style.color === 'rgb(255, 107, 157)') {
-                // Unlike
-                element.style.color = 'rgba(255,255,255,0.6)';
-                likeCountSpan.textContent = currentCount - 1;
-            } else {
-                // Like
-                element.style.color = '#ff6b9d';
-                likeCountSpan.textContent = currentCount + 1;
-                
-                // Create floating heart animation
-                createFloatingHeart(element);
-                
-                // Add shake animation to button
-                element.style.animation = 'heartBeat 0.6s ease-in-out';
-                setTimeout(() => {
-                    element.style.animation = '';
-                }, 600);
+        .notification-bubble:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(250, 112, 154, 0.8);
+        }
+
+        /* Modern Navigation */
+        .nav-container {
+            padding: 0 24px 24px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 8px;
+            gap: 6px;
+            box-shadow: 
+                0 8px 32px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 18px 12px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 18px;
+            transform: scale(0.8);
+        }
+
+        .nav-tab.active {
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nav-tab.active::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .nav-tab i,
+        .nav-tab span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-tab i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        /* Content Container */
+        .content {
+            padding: 0 24px 140px;
+            min-height: 400px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
             }
-            
-            // Haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-     
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 
+                0 8px 32px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 60px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Enhanced Match Cards */
+        .match-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-percentage {
+            position: absolute;
+            top: 28px;
+            right: 28px;
+            background: var(--success);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 6px 20px rgba(67, 233, 123, 0.5);
+            animation: percentageBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes percentageBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .user-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .avatar-container {
+            position: relative;
+            margin-right: 18px;
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            box-shadow: 
+                0 8px 24px rgba(79, 172, 254, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            background: #00ff88;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,255,136,0.5);
+            animation: onlinePulse 2s infinite;
+        }
+
+        @keyframes onlinePulse {
+            0%, 100% { 
+                box-shadow: 0 2px 8px rgba(0,255,136,0.5);
+            }
+            50% { 
+                box-shadow: 0 2px 8px rgba(0,255,136,0.8), 0 0 0 4px rgba(0,255,136,0.3);
+            }
+        }
+
+        .user-info h3 {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .user-details {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .interests-container {
+            margin: 24px 0;
+        }
+
+        .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .interest-tag {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interest-tag:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        .bio-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 20px 0;
+            font-size: 15px;
+        }
+
+        /* Enhanced Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 22px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.6s;
+            transform: translate(-50%, -50%);
+        }
+
+        .action-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-pass {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-pass:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .btn-like {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 8px 24px rgba(240, 147, 251, 0.5);
+        }
+
+        .btn-like:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.7);
+        }
+
+        /* Enhanced Chat Interface */
+        .chat-header {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-right: 16px;
+            box-shadow: 0 4px 16px rgba(79, 172, 254, 0.4);
+        }
+
+        .chat-user-details h4 {
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .status-text {
+            color: var(--text-secondary);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .typing-dots {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .typing-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typingDots 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingDots {
+            0%, 80%, 100% { 
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .timer-display {
+            background: var(--warning);
+            color: white;
+            padding: 14px 22px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            min-width: 160px;
+            box-shadow: 0 6px 20px rgba(250, 112, 154, 0.5);
+            animation: timerPulse 3s infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 6px 20px rgba(250, 112, 154, 0.5);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 8px 28px rgba(250, 112, 154, 0.7);
+            }
+        }
+
+        .chat-messages {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-top: none;
+            border-radius: 0 0 24px 24px;
+            padding: 28px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 24px;
+            animation: messageSlide 0.5s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.sent {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 75%;
+            padding: 18px 22px;
+            border-radius: 26px;
+            font-size: 15px;
+            line-height: 1.5;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.received .message-bubble {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom-left-radius: 10px;
+        }
+
+        .message.sent .message-bubble {
+            background: var(--secondary);
+            color: white;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 4px 16px rgba(240, 147, 251, 0.4);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Enhanced Decision Interface */
+        .decision-card {
+            background: var(--warning);
+            border-radius: 28px;
+            padding: 36px 28px;
+            text-align: center;
+            color: white;
+            margin: 28px 0;
+            box-shadow: 
+                0 15px 50px rgba(250, 112, 154, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decision-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .decision-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .decision-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            display: block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .decision-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .decision-subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 18px;
+        }
+
+        .decision-btn {
+            flex: 1;
+            padding: 20px 28px;
+            border: none;
+            border-radius: 22px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-continue {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 8px 24px rgba(67, 233, 123, 0.5);
+        }
+
+        .btn-stop {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .decision-btn:hover {
+            transform: translateY(-6px);
+        }
+
+        .btn-continue:hover {
+            box-shadow: 0 15px 40px rgba(67, 233, 123, 0.7);
+        }
+
+        /* Enhanced Profile Section */
+        .profile-hero {
+            text-align: center;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 36px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            color: white;
+            margin: 0 auto 24px;
+            position: relative;
+            box-shadow: 
+                0 20px 60px rgba(79, 172, 254, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .edit-overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 42px;
+            height: 42px;
+            background: var(--secondary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.5);
+        }
+
+        .edit-overlay
