@@ -1,0 +1,130 @@
+erDiagram
+    %% ລະບົບຫາຄູ່ຮັກ - LOVE MATCHING SYSTEM
+    
+    USERS {
+        int user_id PK "ລະຫັດຜູ້ໃຊ້"
+        string username "ຊື່ຜູ້ໃຊ້"
+        string email "ອີເມວ"
+        string password_hash "ລະຫັດຜ່ານ"
+        string first_name "ຊື່ຈິງ"
+        string last_name "ນາມສະກຸນ"
+        string gender "ເພດ"
+        int age "ອາຍຸ"
+        date birth_date "ວັນເກີດ"
+        string location "ທີ່ຢູ່"
+        string profile_image "ຮູບໂປຣໄຟລ໌"
+        text bio "ແນະນຳຕົວ"
+        datetime created_at "ວັນທີ່ສ້າງບັນຊີ"
+        datetime last_active "ເຂົ້າໃຊ້ຄັ້ງສຸດທ້າຍ"
+        boolean is_active "ສະຖານະການນຳໃຊ້"
+        boolean is_verified "ຢືນຢັນແລ້ວ"
+    }
+    
+    USER_INTERESTS {
+        int interest_id PK "ລະຫັດຄວາມສົນໃຈ"
+        int user_id FK "ລະຫັດຜູ້ໃຊ້"
+        string interest_name "ຊື່ຄວາມສົນໃຈ"
+        text interest_description "ລາຍລະອຽດ"
+        string interest_category "ປະເພດ"
+        string skill_level "ລະດັບຄວາມຊຳນານ"
+        int priority_level "ລະດັບຄວາມສຳຄັນ"
+        datetime created_at "ວັນທີ່ເພີ່ມ"
+        boolean is_active "ສະຖານະ"
+    }
+    
+    USER_PREFERENCES {
+        int preference_id PK "ລະຫັດຄວາມຕ້ອງການ"
+        int user_id FK "ລະຫັດຜູ້ໃຊ້"
+        string preferred_gender "ເພດທີ່ຕ້ອງການ"
+        int min_age "ອາຍຸຕ່ຳສຸດ"
+        int max_age "ອາຍຸສູງສຸດ"
+        int max_distance_km "ໄລຍະທາງສູງສຸດ"
+        string relationship_type "ປະເພດຄວາມສຳພັນ"
+        datetime updated_at "ວັນທີ່ອັບເດດ"
+    }
+    
+    MATCHES {
+        int match_id PK "ລະຫັດການຈັບຄູ່"
+        int user1_id FK "ຜູ້ໃຊ້ຄົນທີ່ 1"
+        int user2_id FK "ຜູ້ໃຊ້ຄົນທີ່ 2"
+        float match_percentage "ເປີເຊັນຄວາມເຂົ້າກັນໄດ້"
+        text compatibility_details "ລາຍລະອຽດຄວາມເຂົ້າກັນ"
+        datetime match_date "ວັນທີ່ຈັບຄູ່"
+        string status "ສະຖານະ"
+        boolean user1_interested "ຜູ້ໃຊ້ 1 ສົນໃຈ"
+        boolean user2_interested "ຜູ້ໃຊ້ 2 ສົນໃຈ"
+        boolean both_interested "ທັງສອງສົນໃຈ"
+        datetime expires_at "ວັນທີ່ໝົດອາຍຸ"
+    }
+    
+    CONVERSATIONS {
+        int conversation_id PK "ລະຫັດການສົນທະນາ"
+        int match_id FK "ລະຫັດການຈັບຄູ່"
+        datetime started_at "ເລີ່ມສົນທະນາ"
+        int time_limit_days "ຈຳນວນວັນທີ່ກຳໜົດ"
+        string status "ສະຖານະ"
+        boolean user1_continue "ຜູ້ໃຊ້ 1 ຕ້ອງການສືບຕໍ່"
+        boolean user2_continue "ຜູ້ໃຊ້ 2 ຕ້ອງການສືບຕໍ່"
+        datetime decision_deadline "ກຳໜົດເວລາຕັດສິນໃຈ"
+        datetime ended_at "ສິ້ນສຸດເມື່ອ"
+        string end_reason "ສາເຫດທີ່ສິ້ນສຸດ"
+    }
+    
+    MESSAGES {
+        int message_id PK "ລະຫັດຂໍ້ຄວາມ"
+        int conversation_id FK "ລະຫັດການສົນທະນາ"
+        int sender_id FK "ຜູ້ສົ່ງ"
+        text message_text "ເນື້ອຫາຂໍ້ຄວາມ"
+        string message_type "ປະເພດຂໍ້ຄວາມ"
+        datetime sent_at "ສົ່ງເມື່ອ"
+        datetime read_at "ອ່ານເມື່ອ"
+        boolean is_deleted "ລຶບແລ້ວ"
+    }
+    
+    RELATIONSHIP_REQUESTS {
+        int request_id PK "ລະຫັດຄຳຂໍ"
+        int match_id FK "ລະຫັດການຈັບຄູ່"
+        int requester_id FK "ຜູ້ຂໍ"
+        int receiver_id FK "ຜູ້ຮັບຄຳຂໍ"
+        string request_type "ປະເພດຄຳຂໍ"
+        string status "ສະຖານະ"
+        text message "ຂໍ້ຄວາມ"
+        datetime requested_at "ຂໍເມື່ອ"
+        datetime responded_at "ຕອບເມື່ອ"
+        datetime expires_at "ໝົດອາຍຸເມື່ອ"
+    }
+    
+    BLOCKING {
+        int block_id PK "ລະຫັດການບລັອກ"
+        int blocker_id FK "ຜູ້ບລັອກ"
+        int blocked_id FK "ຜູ້ຖືກບລັອກ"
+        text reason "ສາເຫດ"
+        datetime blocked_at "ບລັອກເມື່ອ"
+    }
+    
+    USER_REPORTS {
+        int report_id PK "ລະຫັດການລາຍງານ"
+        int reporter_id FK "ຜູ້ລາຍງານ"
+        int reported_id FK "ຜູ້ຖືກລາຍງານ"
+        string report_type "ປະເພດການລາຍງານ"
+        text description "ລາຍລະອຽດ"
+        string status "ສະຖານະ"
+        datetime reported_at "ລາຍງານເມື່ອ"
+        datetime resolved_at "ແກ້ໄຂເມື່ອ"
+    }
+    
+    %% ຄວາມສຳພັນລະຫວ່າງຕາຕະລາງ
+    USERS ||--o{ USER_INTERESTS : "ມີຄວາມສົນໃຈ"
+    USERS ||--|| USER_PREFERENCES : "ກຳໜົດຄວາມຕ້ອງການ"
+    USERS ||--o{ MATCHES : "ຜູ້ໃຊ້ທີ່ 1"
+    USERS ||--o{ MATCHES : "ຜູ້ໃຊ້ທີ່ 2"
+    MATCHES ||--|| CONVERSATIONS : "ສ້າງການສົນທະນາ"
+    CONVERSATIONS ||--o{ MESSAGES : "ມີຂໍ້ຄວາມ"
+    USERS ||--o{ MESSAGES : "ສົ່ງຂໍ້ຄວາມ"
+    MATCHES ||--o{ RELATIONSHIP_REQUESTS : "ເກີດຄຳຂໍ"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "ສົ່ງຄຳຂໍ"
+    USERS ||--o{ RELATIONSHIP_REQUESTS : "ຮັບຄຳຂໍ"
+    USERS ||--o{ BLOCKING : "ບລັອກ"
+    USERS ||--o{ BLOCKING : "ຖືກບລັອກ"
+    USERS ||--o{ USER_REPORTS : "ລາຍງານ"
+    USERS ||--o{ USER_REPORTS : "ຖືກລາຍງານ"
